@@ -1,6 +1,8 @@
 <menu id="OptionMenu">
     <menu-item id="trunk" label="@Strings.menu_label_trunk" />
     <menu-item id="frunk" label="@Strings.menu_label_frunk" />
+    <menu-item id="open_charge_port" label="@Strings.menu_label_open_charge_port" />
+    <menu-item id="close_charge_port" label="@Strings.menu_label_close_charge_port" />
     <menu-item id="honk" label="@Strings.menu_label_honk" />
     <menu-item id="toggle_units" label="@Strings.menu_label_toggle" />
     <menu-item id="reset" label="@Strings.menu_label_reset" />

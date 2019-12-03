@@ -17,11 +17,15 @@
     <string id="menu_label_toggle">Toggle C vs. F</string>
     <string id="menu_label_frunk">Frunk</string>
     <string id="menu_label_trunk">Trunk</string>
+    <string id="menu_label_open_charge_port">Open Charge Port</string>
+    <string id="menu_label_close_charge_port">Close Charge Port</string>
 
 	<!--  Second view -->
     <string id="label_cabin">Cabin: </string>
     <string id="label_charge">Charge: </string>
     <string id="label_climate">Climate: </string>
+    <string id="label_charge_port_closed">Charge port closed</string>
+    <string id="label_charge_port_opened">Charge port opened</string>
     <string id="label_error">Error: </string>
     <string id="label_frunk">Frunk</string>
     <string id="label_trunk">Trunk</string>
