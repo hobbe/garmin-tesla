@@ -191,6 +191,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         stateMachine();
     }
 
+    //! When select button is pressed or screen is touched
     function onSelect() {
         if (_data._climate != null && _data._climate.hasKey("is_climate_on") && !_data._climate.get("is_climate_on")) {
             _set_climate_on = true;
@@ -201,6 +202,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         return true;
     }
 
+    //! When down button is pressed or screen is swipped up
     function onNextPage() {
         if (_data._vehicle != null && !_data._vehicle.get("locked")) {
             _lock = true;
@@ -211,17 +213,20 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         return true;
     }
 
+    //! When up button is pressed or screen is swipped down
     function onPreviousPage() {
         _open_frunk = true;
         stateMachine();
         return true;
     }
 
+    //! When back button is pressed or screen is swipped right
     function onBack() {
         Ui.popView(Ui.SLIDE_DOWN);
         return true;
     }
 
+    //! When back button is held down or screen is long-touched
     function onMenu() {
         Ui.pushView(new Rez.Menus.OptionMenu(), new OptionMenuDelegate(self), Ui.SLIDE_UP);
         return true;
