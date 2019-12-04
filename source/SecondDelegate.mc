@@ -3,32 +3,32 @@ using Toybox.Timer;
 using Toybox.Communications as Communications;
 
 class SecondDelegate extends Ui.BehaviorDelegate {
-    var _dummy_mode;
-    var _handler;
-    var _token;
-    var _tesla;
-    var _sleep_timer;
-    var _vehicle_id;
-    var _need_auth;
-    var _auth_done;
-    var _need_wake;
-    var _wake_done;
+    hidden var _dummy_mode;
+    hidden var _handler;
+    hidden var _token;
+    hidden var _tesla;
+    hidden var _sleep_timer;
+    hidden var _vehicle_id;
+    hidden var _need_auth;
+    hidden var _auth_done;
+    hidden var _need_wake;
+    hidden var _wake_done;
 
-    var _get_climate;
-    var _set_climate_on;
-    var _set_climate_off;
-    var _get_charge;
-    var _get_vehicle;
-    var _honk_horn;
-    var _open_frunk;
-    var _open_trunk;
-    var _unlock;
-    var _lock;
-    var _open_charge_port;
-    var _close_charge_port;
-    var _stop_charge;
+    hidden var _get_climate;
+    hidden var _set_climate_on;
+    hidden var _set_climate_off;
+    hidden var _get_charge;
+    hidden var _get_vehicle;
+    hidden var _honk_horn;
+    hidden var _open_frunk;
+    hidden var _open_trunk;
+    hidden var _unlock;
+    hidden var _lock;
+    hidden var _open_charge_port;
+    hidden var _close_charge_port;
+    hidden var _stop_charge;
 
-    var _data;
+    hidden var _data;
 
     function initialize(data, handler) {
         BehaviorDelegate.initialize();
