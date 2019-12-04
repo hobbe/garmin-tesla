@@ -19,12 +19,14 @@
     <string id="menu_label_trunk">Coffre</string>
     <string id="menu_label_open_charge_port">Ouvrir trappe</string>
     <string id="menu_label_close_charge_port">Fermer trappe</string>
+    <string id="menu_label_unplug">*Débrancher*</string>
 
 	<!--  Second view -->
     <string id="label_cabin">Temp: </string>
     <string id="label_charge">Charge: </string>
     <string id="label_charge_port_closed">Trappe fermée</string>
     <string id="label_charge_port_opened">Trappe ouverte</string>
+    <string id="label_charge_stopped">Charge arrêtée</string>
     <string id="label_climate">Clim: </string>
     <string id="label_error">Erreur: </string>
     <string id="label_frunk">Coffre av.</string>
@@ -40,7 +42,6 @@
     <string id="label_off">Off</string>
     <string id="label_on">On</string>
     <string id="label_open_frunk">Ouvrir coffre av. ?</string>
-    <string id="label_open_trunk">Ouvrir coffre ?</string>
     <string id="label_requesting_data">Récup. données...</string>
     <string id="label_unlock_doors">Déverouillée</string>
     <string id="label_unlocked">Ouverte</string>

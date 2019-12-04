@@ -26,6 +26,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
     var _lock;
     var _open_charge_port;
     var _close_charge_port;
+    var _stop_charge;
 
     var _data;
 
@@ -61,6 +62,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         _lock = false;
         _open_charge_port = false;
         _close_charge_port = false;
+        _stop_charge = false;
 
         if(_dummy_mode) {
             _data._vehicle = {
@@ -75,6 +77,17 @@ class SecondDelegate extends Ui.BehaviorDelegate {
                 "is_climate_on" => true
             };
         }
+        stateMachine();
+    }
+
+    //! Scenario to unplug the vehicle, which means:
+    //!   - Unlock the doors
+    //!   - Open the trunk to store the cable
+    //!   - Stop the charge
+    function unplugVehicle() {
+        _unlock = true;
+        _open_trunk = true;
+        _stop_charge = true;
         stateMachine();
     }
 
@@ -182,9 +195,8 @@ class SecondDelegate extends Ui.BehaviorDelegate {
 
         if (_open_trunk) {
             _open_trunk = false;
-            var view = new Ui.Confirmation(Ui.loadResource(Rez.Strings.label_open_trunk));
-            var delegate = new SimpleConfirmDelegate(method(:trunkConfirmed));
-            Ui.pushView(view, delegate, Ui.SLIDE_UP);
+            _handler.invoke(Ui.loadResource(Rez.Strings.label_trunk));
+            _tesla.actuateTrunk(_vehicle_id, method(:genericHandler));
         }
 
         if (_open_charge_port) {
@@ -198,16 +210,17 @@ class SecondDelegate extends Ui.BehaviorDelegate {
             _handler.invoke(Ui.loadResource(Rez.Strings.label_charge_port_closed));
             _tesla.closeChargePortDoor(_vehicle_id, method(:genericHandler));
         }
+
+        if (_stop_charge) {
+            _stop_charge = false;
+            _handler.invoke(Ui.loadResource(Rez.Strings.label_charge_stopped));
+            _tesla.stopCharge(_vehicle_id, method(:genericHandler));
+        }
     }
 
     function frunkConfirmed() {
         _handler.invoke(Ui.loadResource(Rez.Strings.label_frunk));
         _tesla.openFrunk(_vehicle_id, method(:genericHandler));
-    }
-
-    function trunkConfirmed() {
-        _handler.invoke(Ui.loadResource(Rez.Strings.label_trunk));
-        _tesla.actuateTrunk(_vehicle_id, method(:genericHandler));
     }
 
     function timerRefresh() {

@@ -28,6 +28,8 @@ class OptionMenuDelegate extends Ui.MenuInputDelegate {
         } else if (item == :close_charge_port) {
             _controller._close_charge_port = true;
             _controller.stateMachine();
+        } else if (item == :unplug) {
+            _controller.unplugVehicle();
         } else if (item == :toggle_units) {
             var units = Application.getApp().getProperty("imperial");
             if (units) {
