@@ -1,4 +1,5 @@
 <menu id="OptionMenu">
+    <menu-item id="unplug" label="@Strings.menu_label_unplug" />
     <menu-item id="trunk" label="@Strings.menu_label_trunk" />
     <menu-item id="frunk" label="@Strings.menu_label_frunk" />
     <menu-item id="open_charge_port" label="@Strings.menu_label_open_charge_port" />

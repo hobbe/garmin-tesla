@@ -88,6 +88,12 @@ class Tesla {
         _genericPost(url, null, notify);
     }
 
+    //! If the car is currently charging, this will stop it.
+    function stopCharge(vehicle, notify) {
+        var url = TESLA_API + vehicle.toString() + "/command/charge_stop";
+        _genericPost(url, null, notify);
+    }
+
     hidden function _genericGet(url, notify) {
         System.println("GET: " + url);
         Communications.makeWebRequest(
