@@ -101,6 +101,26 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         _stateMachine();
      }
 
+    //! Scenario to turn climate on or off.
+    function toggleClimate() {
+        if (_data._climate != null && _data._climate.hasKey("is_climate_on") && !_data._climate.get("is_climate_on")) {
+            _set_climate_on = true;
+        } else {
+            _set_climate_off = true;
+        }
+        _stateMachine();
+    }
+
+    //! Scenario to lock or unlock the doors.
+    function toggleDoorLock() {
+        if (_data._vehicle != null && !_data._vehicle.get("locked")) {
+            _lock = true;
+        } else {
+            _unlock = true;
+        }
+        _stateMachine();
+    }
+
     //! Scenario to open the frunk (front trunk).
     function openFrunk() {
         _open_frunk = true;
@@ -268,48 +288,36 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         _tesla.openFrunk(_vehicle_id, method(:genericHandler));
     }
 
-    function timerRefresh() {
-        _get_climate = true;
-        _get_charge = true;
-        _stateMachine();
-    }
-
     function delayedWake() {
         _need_wake = true;
         _stateMachine();
     }
 
+    //! When select button is pressed or screen is touched
     function onSelect() {
-        if (_data._climate != null && _data._climate.hasKey("is_climate_on") && !_data._climate.get("is_climate_on")) {
-            _set_climate_on = true;
-        } else {
-            _set_climate_off = true;
-        }
-        _stateMachine();
+        toggleClimate();
         return true;
     }
 
+    //! When down button is pressed or screen is swipped up
     function onNextPage() {
-        if (_data._vehicle != null && !_data._vehicle.get("locked")) {
-            _lock = true;
-        } else {
-            _unlock = true;
-        }
-        _stateMachine();
+        toggleDoorLock();
         return true;
     }
 
+    //! When up button is pressed or screen is swipped down
     function onPreviousPage() {
-        _open_frunk = true;
-        _stateMachine();
+        openFrunk();
         return true;
     }
 
+    //! When back button is pressed or screen is swipped right
     function onBack() {
         Ui.popView(Ui.SLIDE_DOWN);
         return true;
     }
 
+    //! When up button is long-pressed or screen is long-touched
     function onMenu() {
         Ui.pushView(new Rez.Menus.OptionMenu(), new OptionMenuDelegate(self), Ui.SLIDE_UP);
         return true;
@@ -491,13 +499,13 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         }
     }
 
-    function _saveToken(token) {
+    hidden function _saveToken(token) {
         _token = token;
         _auth_done = true;
         Settings.setToken(token);
     }
 
-    function _resetToken() {
+    hidden function _resetToken() {
         _token = null;
         _auth_done = false;
         Settings.setToken(null);
