@@ -24,6 +24,8 @@ class SecondDelegate extends Ui.BehaviorDelegate {
     var _open_trunk;
     var _unlock;
     var _lock;
+    var _open_charge_port;
+    var _close_charge_port;
 
     var _data;
 
@@ -57,6 +59,8 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         _open_trunk = false;
         _unlock = false;
         _lock = false;
+        _open_charge_port = false;
+        _close_charge_port = false;
 
         if(_dummy_mode) {
             _data._vehicle = {
@@ -181,6 +185,18 @@ class SecondDelegate extends Ui.BehaviorDelegate {
             var view = new Ui.Confirmation(Ui.loadResource(Rez.Strings.label_open_trunk));
             var delegate = new SimpleConfirmDelegate(method(:trunkConfirmed));
             Ui.pushView(view, delegate, Ui.SLIDE_UP);
+        }
+
+        if (_open_charge_port) {
+            _open_charge_port = false;
+            _handler.invoke(Ui.loadResource(Rez.Strings.label_charge_port_opened));
+            _tesla.openChargePortDoor(_vehicle_id, method(:genericHandler));
+        }
+
+        if (_close_charge_port) {
+            _close_charge_port = false;
+            _handler.invoke(Ui.loadResource(Rez.Strings.label_charge_port_closed));
+            _tesla.closeChargePortDoor(_vehicle_id, method(:genericHandler));
         }
     }
 

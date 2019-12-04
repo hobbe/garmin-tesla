@@ -58,7 +58,7 @@ class Tesla {
         _genericPost(url, null, notify);
     }
 
-    //! Opens front trunk (frunk).
+    //! Opens the front trunk (frunk).
     function openFrunk(vehicle, notify) {
         var url = TESLA_API + vehicle.toString() + "/command/actuate_trunk";
         var params = {
@@ -67,13 +67,25 @@ class Tesla {
         _genericPost(url, params, notify);
     }
 
-    //! Opens rear trunk. On the Model S and X, it will also close the rear trunk.
+    //! Opens the rear trunk. On the Model S and X, it will also close the rear trunk.
     function actuateTrunk(vehicle, notify) {
         var url = TESLA_API + vehicle.toString() + "/command/actuate_trunk";
         var params = {
             "which_trunk" => "rear"
         };
         _genericPost(url, params, notify);
+    }
+
+    //! Opens the charge port door.
+    function openChargePortDoor(vehicle, notify) {
+        var url = TESLA_API + vehicle.toString() + "/command/charge_port_door_open";
+        _genericPost(url, null, notify);
+    }
+
+    //! Close the charge port door for vehicles with a motorized charge port.
+    function closeChargePortDoor(vehicle, notify) {
+        var url = TESLA_API + vehicle.toString() + "/command/charge_port_door_close";
+        _genericPost(url, null, notify);
     }
 
     hidden function _genericGet(url, notify) {

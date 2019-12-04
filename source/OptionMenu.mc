@@ -22,6 +22,12 @@ class OptionMenuDelegate extends Ui.MenuInputDelegate {
         } else if (item == :trunk) {
             _controller._open_trunk = true;
             _controller.stateMachine();
+        } else if (item == :open_charge_port) {
+            _controller._open_charge_port = true;
+            _controller.stateMachine();
+        } else if (item == :close_charge_port) {
+            _controller._close_charge_port = true;
+            _controller.stateMachine();
         } else if (item == :toggle_units) {
             var units = Application.getApp().getProperty("imperial");
             if (units) {
