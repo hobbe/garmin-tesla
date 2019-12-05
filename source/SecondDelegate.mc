@@ -65,17 +65,17 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         _stop_charge = false;
 
         if(_dummy_mode) {
-            _data._vehicle = {
+            _data.setVehicle({
                 "vehicle_name" => "Janet"
-            };
-            _data._charge = {
+            });
+            _data.setCharge({
                 "battery_level" => 65,
                 "charge_limit_soc" => 80
-            };
-            _data._climate = {
+            });
+            _data.setClimate({
                 "inside_temp" => 25,
                 "is_climate_on" => true
-            };
+            });
         }
         _stateMachine();
     }
@@ -103,7 +103,8 @@ class SecondDelegate extends Ui.BehaviorDelegate {
 
     //! Scenario to turn climate on or off.
     function toggleClimate() {
-        if (_data._climate != null && _data._climate.hasKey("is_climate_on") && !_data._climate.get("is_climate_on")) {
+        var climate = _data.getClimate();
+        if (climate != null && climate.hasKey("is_climate_on") && !climate.get("is_climate_on")) {
             _set_climate_on = true;
         } else {
             _set_climate_off = true;
@@ -113,7 +114,8 @@ class SecondDelegate extends Ui.BehaviorDelegate {
 
     //! Scenario to lock or unlock the doors.
     function toggleDoorLock() {
-        if (_data._vehicle != null && !_data._vehicle.get("locked")) {
+        var vehicle = _data.getVehicle();
+        if (vehicle != null && !vehicle.get("locked")) {
             _lock = true;
         } else {
             _unlock = true;
@@ -358,7 +360,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
     function onReceiveVehicle(responseCode, data) {
         if (responseCode == 200) {
             System.println("Got vehicle");
-            _data._vehicle = data.get("response");
+            _data.setVehicle(data.get("response"));
             _handler.invoke(null);
         } else {
             if (responseCode == 408) {
@@ -377,8 +379,9 @@ class SecondDelegate extends Ui.BehaviorDelegate {
 
     function onReceiveClimate(responseCode, data) {
         if (responseCode == 200) {
-            _data._climate = data.get("response");
-            if (_data._climate.hasKey("inside_temp") && _data._climate.hasKey("is_climate_on")) {
+            var climate = data.get("response");
+            _data.setClimate(climate);
+            if (climate.hasKey("inside_temp") && climate.hasKey("is_climate_on")) {
                 System.println("Got climate");
                 _handler.invoke(null);
             } else {
@@ -402,8 +405,9 @@ class SecondDelegate extends Ui.BehaviorDelegate {
 
     function onReceiveCharge(responseCode, data) {
         if (responseCode == 200) {
-            _data._charge = data.get("response");
-            if (_data._charge.hasKey("battery_level") && _data._charge.hasKey("charge_limit_soc") && _data._charge.hasKey("charging_state")) {
+            var charge = data.get("response");
+            _data.setCharge(charge);
+            if (charge.hasKey("battery_level") && charge.hasKey("charge_limit_soc") && charge.hasKey("charging_state")) {
                 System.println("Got charge");
                 _handler.invoke(null);
             } else {
