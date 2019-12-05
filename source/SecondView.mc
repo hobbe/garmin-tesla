@@ -25,10 +25,10 @@ class SecondView extends Ui.View {
     function onUpdate(dc) {
         var center_x = dc.getWidth()/2;
         var center_y = dc.getHeight()/2;
-        dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_BLACK);
+        dc.setColor(Graphics.COLOR_DK_RED, Graphics.COLOR_BLACK);
         dc.clear();
         if (_display != null) {
-            dc.drawText(center_x, center_y, Graphics.FONT_MEDIUM, _display, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+            dc.drawText(center_x, center_y, Graphics.FONT_SMALL, _display, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else {
             View.onUpdate(dc);
             dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_BLACK);
