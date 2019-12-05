@@ -81,13 +81,15 @@ class SecondDelegate extends Ui.BehaviorDelegate {
     }
 
     //! Scenario to unplug the vehicle, which means:
+    //!   - Stop the charge
     //!   - Unlock the doors
     //!   - Open the trunk to store the cable
-    //!   - Stop the charge
+    //!   - Open the charge port door
     function unplugVehicle() {
+        _stop_charge = true;
         _unlock = true;
         _open_trunk = true;
-        _stop_charge = true;
+        _open_charge_port = true;
         stateMachine();
     }
 
@@ -156,6 +158,12 @@ class SecondDelegate extends Ui.BehaviorDelegate {
             _tesla.getChargeState(_vehicle_id, method(:onReceiveCharge));
         }
 
+        if (_stop_charge) {
+            _stop_charge = false;
+            _handler.invoke(Ui.loadResource(Rez.Strings.label_charge_stopped));
+            _tesla.stopCharge(_vehicle_id, method(:genericHandler));
+        }
+
         if (_set_climate_on) {
             _set_climate_on = false;
             _handler.invoke(Ui.loadResource(Rez.Strings.label_hvac_on));
@@ -209,12 +217,6 @@ class SecondDelegate extends Ui.BehaviorDelegate {
             _close_charge_port = false;
             _handler.invoke(Ui.loadResource(Rez.Strings.label_charge_port_closed));
             _tesla.closeChargePortDoor(_vehicle_id, method(:genericHandler));
-        }
-
-        if (_stop_charge) {
-            _stop_charge = false;
-            _handler.invoke(Ui.loadResource(Rez.Strings.label_charge_stopped));
-            _tesla.stopCharge(_vehicle_id, method(:genericHandler));
         }
     }
 
