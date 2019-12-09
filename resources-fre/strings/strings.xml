@@ -5,6 +5,10 @@
     <string id="press_start1">Appuyer pour</string>
     <string id="press_start2">réveiller...</string>
 
+	<!--  Offline layout -->
+    <string id="label_offline1">Connexion tél.</string>
+    <string id="label_offline2">non disponible</string>
+
 	<!--  Tesla layout -->
     <string id="button_climate_on">Clim</string>
     <string id="button_door">Portes</string>
