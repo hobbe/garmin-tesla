@@ -13,6 +13,7 @@
 	<!--  Option menu -->
     <string id="menu_label_reset">Remise à zéro</string>
     <string id="menu_label_honk">Klaxon</string>
+    <string id="menu_label_flash_lights">Feux</string>
     <string id="menu_label_toggle">Temp. °C/°F</string>
     <string id="menu_label_frunk">Coffre avant</string>
     <string id="menu_label_trunk">Coffre</string>
@@ -31,6 +32,7 @@
     <string id="label_frunk">Coffre av.</string>
     <string id="label_trunk">Coffre</string>
     <string id="label_getting_vehicles">Liste véhicules...</string>
+    <string id="label_lights_flashed">Clign. des feux</string>
     <string id="label_honk">Klaxon</string>
     <string id="label_hvac_on">Clim allumée</string>
     <string id="label_hvac_off">Clim éteinte</string>

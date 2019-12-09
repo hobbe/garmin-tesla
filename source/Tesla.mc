@@ -48,6 +48,11 @@ class Tesla {
         _genericPost(url, null, notify);
     }
 
+    function flashLights(vehicle, notify) {
+        var url = TESLA_API + vehicle.toString() + "/command/flash_lights";
+        _genericPost(url, null, notify);
+    }
+
     function doorUnlock(vehicle, notify) {
         var url = TESLA_API + vehicle.toString() + "/command/door_unlock";
         _genericPost(url, null, notify);

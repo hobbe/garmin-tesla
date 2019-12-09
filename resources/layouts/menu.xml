@@ -5,6 +5,7 @@
     <menu-item id="open_charge_port" label="@Strings.menu_label_open_charge_port" />
     <menu-item id="close_charge_port" label="@Strings.menu_label_close_charge_port" />
     <menu-item id="honk" label="@Strings.menu_label_honk" />
+    <menu-item id="flash_lights" label="@Strings.menu_label_flash_lights" />
     <menu-item id="toggle_units" label="@Strings.menu_label_toggle" />
     <menu-item id="reset" label="@Strings.menu_label_reset" />
 </menu>

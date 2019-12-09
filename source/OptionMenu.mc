@@ -11,6 +11,8 @@ class OptionMenuDelegate extends Ui.MenuInputDelegate {
     function onMenuItem(item) {
         if (item == :reset) {
             _controller.resetToken();
+        } else if (item == :flash_lights) {
+            _controller.flashLights();
         } else if (item == :honk) {
             _controller.honkHorn();
         } else if (item == :frunk) {

@@ -13,6 +13,7 @@
 	<!--  Option menu -->
     <string id="menu_label_reset">Reset...</string>
     <string id="menu_label_honk">Honk</string>
+    <string id="menu_label_flash_lights">Flash lights</string>
     <string id="menu_label_toggle">Toggle C vs. F</string>
     <string id="menu_label_frunk">Frunk</string>
     <string id="menu_label_trunk">Trunk</string>
@@ -31,6 +32,7 @@
     <string id="label_frunk">Frunk</string>
     <string id="label_trunk">Trunk</string>
     <string id="label_getting_vehicles">Getting vehicles...</string>
+    <string id="label_lights_flashed">Lights flashed</string>
     <string id="label_honk">Honk</string>
     <string id="label_hvac_on">HVAC On</string>
     <string id="label_hvac_off">HVAC Off</string>

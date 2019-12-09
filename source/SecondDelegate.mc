@@ -19,6 +19,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
     hidden var _set_climate_off;
     hidden var _get_charge;
     hidden var _get_vehicle;
+    hidden var _flash_lights;
     hidden var _honk_horn;
     hidden var _open_frunk;
     hidden var _open_trunk;
@@ -101,6 +102,12 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         _stateMachine();
      }
 
+    //! Scenario to flash the lights.
+    function flashLights() {
+        _flash_lights = true;
+        _stateMachine();
+     }
+
     //! Scenario to turn climate on or off.
     function toggleClimate() {
         var climate = _data.getClimate();
@@ -157,7 +164,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         _unlock = true;
         _open_trunk = true;
         _open_charge_port = true;
-        stateMachine();
+        _stateMachine();
     }
 
     hidden function _stateMachine() {
@@ -241,6 +248,12 @@ class SecondDelegate extends Ui.BehaviorDelegate {
             _set_climate_off = false;
             _handler.invoke(Ui.loadResource(Rez.Strings.label_hvac_off));
             _tesla.climateOff(_vehicle_id, method(:onClimateDone));
+        }
+
+        if (_flash_lights) {
+            _flash_lights = false;
+            _handler.invoke(Ui.loadResource(Rez.Strings.label_lights_flashed));
+            _tesla.flashLights(_vehicle_id, method(:genericHandler));
         }
 
         if (_honk_horn) {
