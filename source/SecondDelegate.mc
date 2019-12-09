@@ -3,32 +3,32 @@ using Toybox.Timer;
 using Toybox.Communications as Communications;
 
 class SecondDelegate extends Ui.BehaviorDelegate {
-    var _dummy_mode;
-    var _handler;
-    var _token;
-    var _tesla;
-    var _sleep_timer;
-    var _vehicle_id;
-    var _need_auth;
-    var _auth_done;
-    var _need_wake;
-    var _wake_done;
+    hidden var _dummy_mode;
+    hidden var _handler;
+    hidden var _token;
+    hidden var _tesla;
+    hidden var _sleep_timer;
+    hidden var _vehicle_id;
+    hidden var _need_auth;
+    hidden var _auth_done;
+    hidden var _need_wake;
+    hidden var _wake_done;
 
-    var _get_climate;
-    var _set_climate_on;
-    var _set_climate_off;
-    var _get_charge;
-    var _get_vehicle;
-    var _honk_horn;
-    var _open_frunk;
-    var _open_trunk;
-    var _unlock;
-    var _lock;
-    var _open_charge_port;
-    var _close_charge_port;
-    var _stop_charge;
+    hidden var _get_climate;
+    hidden var _set_climate_on;
+    hidden var _set_climate_off;
+    hidden var _get_charge;
+    hidden var _get_vehicle;
+    hidden var _honk_horn;
+    hidden var _open_frunk;
+    hidden var _open_trunk;
+    hidden var _unlock;
+    hidden var _lock;
+    hidden var _open_charge_port;
+    hidden var _close_charge_port;
+    hidden var _stop_charge;
 
-    var _data;
+    hidden var _data;
 
     function initialize(data, handler) {
         BehaviorDelegate.initialize();
@@ -65,20 +65,87 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         _stop_charge = false;
 
         if(_dummy_mode) {
-            _data._vehicle = {
+            _data.setVehicle({
                 "vehicle_name" => "Janet"
-            };
-            _data._charge = {
+            });
+            _data.setCharge({
                 "battery_level" => 65,
                 "charge_limit_soc" => 80
-            };
-            _data._climate = {
+            });
+            _data.setClimate({
                 "inside_temp" => 25,
                 "is_climate_on" => true
-            };
+            });
         }
-        stateMachine();
+        _stateMachine();
     }
+
+    //! Scenario to reset the authentication token.
+    function resetToken() {
+        Settings.setToken(null);
+        Application.getApp().setProperty("vehicle", null);
+    }
+
+    //! Scenario to toggle temperature units from °C to °F.
+    function toggleUnits() {
+        var units = Application.getApp().getProperty("imperial");
+        if (units == null) {
+            units = false;
+        }
+        Application.getApp().setProperty("imperial", !units);
+    }
+
+    //! Scenario to honk the horn.
+    function honkHorn() {
+        _honk_horn = true;
+        _stateMachine();
+     }
+
+    //! Scenario to turn climate on or off.
+    function toggleClimate() {
+        var climate = _data.getClimate();
+        if (climate != null && climate.hasKey("is_climate_on") && !climate.get("is_climate_on")) {
+            _set_climate_on = true;
+        } else {
+            _set_climate_off = true;
+        }
+        _stateMachine();
+    }
+
+    //! Scenario to lock or unlock the doors.
+    function toggleDoorLock() {
+        var vehicle = _data.getVehicle();
+        if (vehicle != null && !vehicle.get("locked")) {
+            _lock = true;
+        } else {
+            _unlock = true;
+        }
+        _stateMachine();
+    }
+
+    //! Scenario to open the frunk (front trunk).
+    function openFrunk() {
+        _open_frunk = true;
+        _stateMachine();
+     }
+
+    //! Scenario to open the rear trunk.
+    function openTrunk() {
+        _open_trunk = true;
+        _stateMachine();
+     }
+
+    //! Scenario to open the charge port door.
+    function openChargePort() {
+        _open_charge_port = true;
+        _stateMachine();
+     }
+
+    //! Scenario to close the charge port door.
+    function closeChargePort() {
+        _close_charge_port = true;
+        _stateMachine();
+     }
 
     //! Scenario to unplug the vehicle, which means:
     //!   - Stop the charge
@@ -93,7 +160,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         stateMachine();
     }
 
-    function stateMachine() {
+    hidden function _stateMachine() {
         if(_dummy_mode) {
             _handler.invoke(null);
             return;
@@ -225,48 +292,36 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         _tesla.openFrunk(_vehicle_id, method(:genericHandler));
     }
 
-    function timerRefresh() {
-        _get_climate = true;
-        _get_charge = true;
-        stateMachine();
-    }
-
     function delayedWake() {
         _need_wake = true;
-        stateMachine();
+        _stateMachine();
     }
 
+    //! When select button is pressed or screen is touched
     function onSelect() {
-        if (_data._climate != null && _data._climate.hasKey("is_climate_on") && !_data._climate.get("is_climate_on")) {
-            _set_climate_on = true;
-        } else {
-            _set_climate_off = true;
-        }
-        stateMachine();
+        toggleClimate();
         return true;
     }
 
+    //! When down button is pressed or screen is swipped up
     function onNextPage() {
-        if (_data._vehicle != null && !_data._vehicle.get("locked")) {
-            _lock = true;
-        } else {
-            _unlock = true;
-        }
-        stateMachine();
+        toggleDoorLock();
         return true;
     }
 
+    //! When up button is pressed or screen is swipped down
     function onPreviousPage() {
-        _open_frunk = true;
-        stateMachine();
+        openFrunk();
         return true;
     }
 
+    //! When back button is pressed or screen is swipped right
     function onBack() {
         Ui.popView(Ui.SLIDE_DOWN);
         return true;
     }
 
+    //! When up button is long-pressed or screen is long-touched
     function onMenu() {
         Ui.pushView(new Rez.Menus.OptionMenu(), new OptionMenuDelegate(self), Ui.SLIDE_UP);
         return true;
@@ -276,7 +331,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         if (responseCode == 200) {
             System.println("Auth OK");
             _auth_done = true;
-            stateMachine();
+            _stateMachine();
         } else {
             System.println("Auth failed: " + responseCode.toString());
             _resetToken();
@@ -291,7 +346,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
             System.println("Got vehicles");
             _vehicle_id = data.get("response")[0].get("id");
             Application.getApp().setProperty("vehicle", _vehicle_id);
-            stateMachine();
+            _stateMachine();
         } else {
             if (responseCode == 401) {
                 // Unauthorized
@@ -299,7 +354,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
             }
             _handler.invoke(Ui.loadResource(Rez.Strings.label_error) + responseCode.toString());
             if (responseCode == 408) {
-                stateMachine();
+                _stateMachine();
             }
         }
     }
@@ -307,7 +362,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
     function onReceiveVehicle(responseCode, data) {
         if (responseCode == 200) {
             System.println("Got vehicle");
-            _data._vehicle = data.get("response");
+            _data.setVehicle(data.get("response"));
             _handler.invoke(null);
         } else {
             if (responseCode == 408) {
@@ -326,8 +381,9 @@ class SecondDelegate extends Ui.BehaviorDelegate {
 
     function onReceiveClimate(responseCode, data) {
         if (responseCode == 200) {
-            _data._climate = data.get("response");
-            if (_data._climate.hasKey("inside_temp") && _data._climate.hasKey("is_climate_on")) {
+            var climate = data.get("response");
+            _data.setClimate(climate);
+            if (climate.hasKey("inside_temp") && climate.hasKey("is_climate_on")) {
                 System.println("Got climate");
                 _handler.invoke(null);
             } else {
@@ -351,8 +407,9 @@ class SecondDelegate extends Ui.BehaviorDelegate {
 
     function onReceiveCharge(responseCode, data) {
         if (responseCode == 200) {
-            _data._charge = data.get("response");
-            if (_data._charge.hasKey("battery_level") && _data._charge.hasKey("charge_limit_soc") && _data._charge.hasKey("charging_state")) {
+            var charge = data.get("response");
+            _data.setCharge(charge);
+            if (charge.hasKey("battery_level") && charge.hasKey("charge_limit_soc") && charge.hasKey("charging_state")) {
                 System.println("Got charge");
                 _handler.invoke(null);
             } else {
@@ -380,7 +437,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
             _get_vehicle = true;
             _get_climate = true;
             _get_charge = true;
-            stateMachine();
+            _stateMachine();
         } else {
             System.println("error from onReceiveAwake");
             if (responseCode == 401) {
@@ -401,7 +458,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         if (responseCode == 200) {
             _get_climate = true;
             _handler.invoke(null);
-            stateMachine();
+            _stateMachine();
         } else {
             if (responseCode == 401) {
                 // Unauthorized
@@ -415,7 +472,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         if (responseCode == 200) {
             _get_vehicle = true;
             _handler.invoke(null);
-            stateMachine();
+            _stateMachine();
         } else {
             if (responseCode == 401) {
                 // Unauthorized
@@ -428,7 +485,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
     function genericHandler(responseCode, data) {
         if (responseCode == 200) {
             _handler.invoke(null);
-            stateMachine();
+            _stateMachine();
         } else {
             if (responseCode == 401) {
                 // Unauthorized
@@ -441,20 +498,20 @@ class SecondDelegate extends Ui.BehaviorDelegate {
     function onOAuthMessage(message) {
         if (message.data != null) {
             _saveToken(message.data["OAUTH_CODE"]);
-            stateMachine();
+            _stateMachine();
         } else {
             _resetToken();
             _handler.invoke(Ui.loadResource(Rez.Strings.label_oauth_error));
         }
     }
 
-    function _saveToken(token) {
+    hidden function _saveToken(token) {
         _token = token;
         _auth_done = true;
         Settings.setToken(token);
     }
 
-    function _resetToken() {
+    hidden function _resetToken() {
         _token = null;
         _auth_done = false;
         Settings.setToken(null);

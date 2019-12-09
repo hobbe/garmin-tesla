@@ -10,33 +10,21 @@ class OptionMenuDelegate extends Ui.MenuInputDelegate {
 
     function onMenuItem(item) {
         if (item == :reset) {
-            System.println("menu");
-            Settings.setToken(null);
-            Application.getApp().setProperty("vehicle", null);
+            _controller.resetToken();
         } else if (item == :honk) {
-            _controller._honk_horn = true;
-            _controller.stateMachine();
+            _controller.honkHorn();
         } else if (item == :frunk) {
-            _controller._open_frunk = true;
-            _controller.stateMachine();
+            _controller.openFrunk();
         } else if (item == :trunk) {
-            _controller._open_trunk = true;
-            _controller.stateMachine();
+            _controller.openTrunk();
         } else if (item == :open_charge_port) {
-            _controller._open_charge_port = true;
-            _controller.stateMachine();
+            _controller.openChargePort();
         } else if (item == :close_charge_port) {
-            _controller._close_charge_port = true;
-            _controller.stateMachine();
+            _controller.closeChargePort();
         } else if (item == :unplug) {
             _controller.unplugVehicle();
         } else if (item == :toggle_units) {
-            var units = Application.getApp().getProperty("imperial");
-            if (units) {
-                Application.getApp().setProperty("imperial", false);
-            } else {
-                Application.getApp().setProperty("imperial", true);
-            }
+            _controller.toggleUnits();
         }
     }
 }
