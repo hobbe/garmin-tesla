@@ -33,6 +33,12 @@
     <string id="label_charge_stopped">Charge arrêtée</string>
     <string id="label_climate">Clim: </string>
     <string id="label_error">Erreur: </string>
+    <string id="label_error__101">File pleine</string>
+    <string id="label_error__103">Erreur d'envoi</string>
+    <string id="label_error__104">Non-disponible</string>
+    <string id="label_error_401">Non-autorisé</string>
+    <string id="label_error_404">Non-disponible</string>
+    <string id="label_error_408">Délai dépassé</string>
     <string id="label_frunk">Coffre av.</string>
     <string id="label_trunk">Coffre</string>
     <string id="label_getting_vehicles">Liste véhicules...</string>

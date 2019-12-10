@@ -33,6 +33,12 @@
     <string id="label_charge_port_opened">Charge port opened</string>
     <string id="label_charge_stopped">Charge stopped</string>
     <string id="label_error">Error: </string>
+    <string id="label_error__101">Queue full</string>
+    <string id="label_error__103">Sending error</string>
+    <string id="label_error__104">Unavailable</string>
+    <string id="label_error_401">Unauthorized</string>
+    <string id="label_error_404">Unavailable</string>
+    <string id="label_error_408">Request timeout</string>
     <string id="label_frunk">Frunk</string>
     <string id="label_trunk">Trunk</string>
     <string id="label_getting_vehicles">Getting vehicles...</string>
