@@ -48,8 +48,7 @@
     <string id="label_hvac_off">Clim éteinte</string>
     <string id="label_lock_doors">Vérouillée</string>
     <string id="label_locked">Fermée</string>
-    <string id="label_login_on_phone">Connexion sur tél.</string>
-    <string id="label_oauth_error">Erreur OAuth</string>
+    <string id="label_oauth_error">Erreur d'auth.</string>
     <string id="label_off">Off</string>
     <string id="label_on">On</string>
     <string id="label_open_frunk">Ouvrir coffre av. ?</string>
@@ -61,4 +60,8 @@
 	<!--  Settings -->
     <string id="setting_token_label">Clé d'API</string>
     <string id="setting_token_prompt">Entrer la clé d'API Tesla (Token)</string>
+    <string id="setting_email_label">Email</string>
+    <string id="setting_email_prompt">Entrer votre identifiant Tesla (Email)</string>
+    <string id="setting_password_label">Password</string>
+    <string id="setting_password_prompt">Enter votre mot de passe Tesla</string>
 </strings>

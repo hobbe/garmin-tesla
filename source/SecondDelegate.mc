@@ -9,8 +9,6 @@ class SecondDelegate extends Ui.BehaviorDelegate {
     hidden var _tesla;
     hidden var _sleep_timer;
     hidden var _vehicle_id;
-    hidden var _need_auth;
-    hidden var _auth_done;
     hidden var _need_wake;
     hidden var _wake_done;
 
@@ -41,13 +39,6 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         _handler = handler;
         _tesla = null;
 
-        if (_token != null) {
-            _need_auth = false;
-            _auth_done = true;
-        } else {
-            _need_auth = true;
-            _auth_done = false;
-        }
         _need_wake = false;
         _wake_done = true;
 
@@ -173,24 +164,9 @@ class SecondDelegate extends Ui.BehaviorDelegate {
             return;
         }
 
-        if (_need_auth) {
-            _need_auth = false;
-            _handler.invoke(Ui.loadResource(Rez.Strings.label_login_on_phone));
-            Communications.registerForOAuthMessages(method(:onOAuthMessage));
-            Communications.makeOAuthRequest(
-                "https://dasbrennen.org/tesla/tesla.html",
-                {},
-                "https://dasbrennen.org/tesla/tesla-done.html",
-                Communications.OAUTH_RESULT_TYPE_URL,
-                {
-                    "responseCode" => "OAUTH_CODE",
-                    "responseError" => "OAUTH_ERROR"
-                }
-            );
-            return;
-        }
-
-        if (!_auth_done) {
+        if (_token == null) {
+            _tesla = new Tesla(null);
+            _tesla.authenticate(Settings.getEmail(), Settings.getPassword(), method(:onAuthentication));
             return;
         }
 
@@ -436,9 +412,9 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         }
     }
 
-    function onOAuthMessage(message) {
-        if (message.data != null) {
-            _saveToken(message.data["OAUTH_CODE"]);
+    function onAuthentication(token) {
+        if (token != null) {
+            _saveToken(token);
             _stateMachine();
         } else {
             _resetToken();
@@ -489,13 +465,11 @@ class SecondDelegate extends Ui.BehaviorDelegate {
 
     hidden function _saveToken(token) {
         _token = token;
-        _auth_done = true;
         Settings.setToken(token);
     }
 
     hidden function _resetToken() {
         _token = null;
-        _auth_done = false;
         Settings.setToken(null);
     }
 

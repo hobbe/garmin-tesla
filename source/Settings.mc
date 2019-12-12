@@ -13,11 +13,30 @@ module Settings {
     //! Get auth token
     function getToken() {
         var value = Application.getApp().getProperty(TOKEN);
+        if (value == "") {
+            value = null;
+        }
         System.println("Settings: token value is " + value);
+        return value;
+    }
+
+    //! Get Tesla account email
+    function getEmail() {
+        var value = Application.getApp().getProperty(EMAIL);
+        System.println("Settings: account email is " + value);
+        return value;
+    }
+
+    //! Get Tesla account password
+    function getPassword() {
+        var value = Application.getApp().getProperty(PASSWORD);
+        System.println("Settings: account password is *****");
         return value;
     }
 
 
     // Settings name, see resources/settings/settings.xml
     const TOKEN = "token";
+    const EMAIL = "email";
+    const PASSWORD = "password";
 }
