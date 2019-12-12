@@ -104,7 +104,9 @@ class Tesla {
     //! returned as argument of the callback: notify(token)
     function authenticate(email, password, notify) {
         _callback = notify;
+
         var url = "https://owner-api.teslamotors.com/oauth/token/";
+
         var params = {
             "grant_type" => "password",
             "client_id" => "81527cff06843c8634fdc09e8ac0abefb46ac849f38fe1e431c2ef2106796384",
@@ -113,15 +115,12 @@ class Tesla {
             "password" => password
         };
 
-        Communications.makeWebRequest(
-            url,
-            params,
-            {
-                :method => Communications.HTTP_REQUEST_METHOD_POST,
-                :responseType => Communications.HTTP_RESPONSE_CONTENT_TYPE_JSON
-            },
-            method(:_onAuthenticateResult)
-        );
+        var options = {
+            :method => Communications.HTTP_REQUEST_METHOD_POST,
+            :responseType => Communications.HTTP_RESPONSE_CONTENT_TYPE_JSON
+        };
+
+        Communications.makeWebRequest(url, params, options, method(:_onAuthenticateResult));
     }
 
     function _onAuthenticateResult(responseCode, data) {
