@@ -49,7 +49,7 @@
     <string id="label_lock_doors">Lock Doors</string>
     <string id="label_locked">Locked</string>
     <string id="label_login_on_phone">Login on Phone!</string>
-    <string id="label_oauth_error">OAuth error</string>
+    <string id="label_oauth_error">Auth. error</string>
     <string id="label_off">Off</string>
     <string id="label_on">On</string>
     <string id="label_open_frunk">Open Frunk?</string>
@@ -60,5 +60,9 @@
 
 	<!--  Settings -->
     <string id="setting_token_label">API Token</string>
-    <string id="setting_token_prompt">Enter your Tesla Account token</string>
+    <string id="setting_token_prompt">Enter your Tesla account token</string>
+    <string id="setting_email_label">Email</string>
+    <string id="setting_email_prompt">Enter your Tesla account user ID (Email)</string>
+    <string id="setting_password_label">Password</string>
+    <string id="setting_password_prompt">Enter your Tesla account password</string>
 </strings>

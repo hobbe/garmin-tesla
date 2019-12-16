@@ -1,7 +1,8 @@
 class Tesla {
     hidden var _token;
-    hidden var _notify;
+    hidden var _callback;
     hidden const TESLA_API = "https://owner-api.teslamotors.com/api/1/vehicles/";
+
 
     function initialize(token) {
         if (token != null) {
@@ -99,6 +100,43 @@ class Tesla {
         _genericPost(url, null, notify);
     }
 
+    //! Authenticate against the Tesla servers, request for a token which is
+    //! returned as argument of the callback: notify(token)
+    function authenticate(email, password, notify) {
+        _callback = notify;
+
+        var url = "https://owner-api.teslamotors.com/oauth/token/";
+
+        var params = {
+            "grant_type" => "password",
+            "client_id" => "81527cff06843c8634fdc09e8ac0abefb46ac849f38fe1e431c2ef2106796384",
+            "client_secret" => "c7257eb71a564034f9419ee651c7d0e5f7aa6bfbd18bafb5c5c033b093bb2fa3",
+            "email" => email,
+            "password" => password
+        };
+
+        var options = {
+            :method => Communications.HTTP_REQUEST_METHOD_POST,
+            :responseType => Communications.HTTP_RESPONSE_CONTENT_TYPE_JSON
+        };
+
+        Communications.makeWebRequest(url, params, options, method(:_onAuthenticateResult));
+    }
+
+    function _onAuthenticateResult(responseCode, data) {
+        var token = null;
+        if (responseCode == 200) {
+            token = data.get("access_token");
+            System.println("Authentication token: " + token);
+            _token = "Bearer " + data.get("access_token");
+        } else {
+            System.println("Authentication error: " + responseCode.toString());
+        }
+        if (_callback != null) {
+            _callback.invoke(token);
+        }
+    }
+
     hidden function _genericGet(url, notify) {
         System.println("GET: " + url);
         Communications.makeWebRequest(
@@ -131,12 +169,4 @@ class Tesla {
         );
     }
 
-
-    //function authCallback(responseCode, data) {
-    //    if (responseCode == 200) {
-    //        Application.getApp().setProperty("token", data.get("access_token"));
-    //        _token = "Bearer " + data.get("access_token");
-    //    }
-    //    _notify.invoke(responseCode, data);
-    //}
 }
