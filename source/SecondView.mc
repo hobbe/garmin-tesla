@@ -2,7 +2,7 @@ using Toybox.WatchUi as Ui;
 
 class SecondView extends Ui.View {
     hidden var _display;
-    var _data;
+    hidden var _data;
 
     function initialize(data) {
         View.initialize();
@@ -25,18 +25,19 @@ class SecondView extends Ui.View {
     function onUpdate(dc) {
         var center_x = dc.getWidth()/2;
         var center_y = dc.getHeight()/2;
-        dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_BLACK);
+        dc.setColor(Graphics.COLOR_DK_RED, Graphics.COLOR_BLACK);
         dc.clear();
         if (_display != null) {
-            dc.drawText(center_x, center_y, Graphics.FONT_MEDIUM, _display, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+            dc.drawText(center_x, center_y, Graphics.FONT_SMALL, _display, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else {
             View.onUpdate(dc);
             dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_BLACK);
 
-            if (_data._vehicle != null) {
-                dc.drawText(center_x, 40, Graphics.FONT_SMALL, _data._vehicle.get("vehicle_name"), Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+            var _vehicle = _data.getVehicle();
+            if (_vehicle != null) {
+                dc.drawText(center_x, 40, Graphics.FONT_SMALL, _vehicle.get("vehicle_name"), Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
 
-                var locked = _data._vehicle.get("locked");
+                var locked = _vehicle.get("locked");
                 if (locked) {
                     dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_BLACK);
                     dc.drawText(30, 75, Graphics.FONT_SMALL, Ui.loadResource(Rez.Strings.label_locked), Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
@@ -54,13 +55,16 @@ class SecondView extends Ui.View {
             }
             dc.setPenWidth(5);
             dc.drawArc(center_x, center_y, radius, Graphics.ARC_CLOCKWISE, 180, 0);
+
             dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
             var data_block_x = Application.AppBase.getProperty("DataBlockX");
             var charge_y = Application.AppBase.getProperty("ChargeY");
-            if (_data._charge != null) {
-                var charge = _data._charge.get("battery_level");
-                var requested_charge = _data._charge.get("charge_limit_soc");
-                if (_data._charge.get("charging_state").equals("Charging")) {
+
+            var _charge = _data.getCharge();
+            if (_charge != null) {
+                var charge = _charge.get("battery_level");
+                var requested_charge = _charge.get("charge_limit_soc");
+                if (_charge.get("charging_state").equals("Charging")) {
                     dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_BLACK);
                 }
                 dc.drawText(data_block_x, charge_y, Graphics.FONT_MEDIUM, Ui.loadResource(Rez.Strings.label_charge) + charge.toString() + "%", Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
@@ -78,10 +82,11 @@ class SecondView extends Ui.View {
                 dc.drawText(data_block_x, charge_y, Graphics.FONT_MEDIUM, Ui.loadResource(Rez.Strings.label_charge), Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
             }
 
+            var _climate = _data.getClimate();
             var temp_y = Application.AppBase.getProperty("TempY");
             var climate_y = Application.AppBase.getProperty("ClimateY");
-            if (_data._climate != null) {
-                var temp = _data._climate.get("inside_temp").toNumber();
+            if (_climate != null) {
+                var temp = _climate.get("inside_temp").toNumber();
 
                 var units = Application.getApp().getProperty("imperial");
                 if (units) {
@@ -92,7 +97,7 @@ class SecondView extends Ui.View {
                     dc.drawText(data_block_x, temp_y, Graphics.FONT_MEDIUM, Ui.loadResource(Rez.Strings.label_cabin) + temp.toString() + "°C", Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
                 }
 
-                var on = _data._climate.get("is_climate_on") ? Ui.loadResource(Rez.Strings.label_on) : Ui.loadResource(Rez.Strings.label_off);
+                var on = _climate.get("is_climate_on") ? Ui.loadResource(Rez.Strings.label_on) : Ui.loadResource(Rez.Strings.label_off);
                 dc.drawText(data_block_x, climate_y, Graphics.FONT_MEDIUM, Ui.loadResource(Rez.Strings.label_climate) + on, Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
             } else {
                 dc.drawText(data_block_x, temp_y, Graphics.FONT_MEDIUM, Ui.loadResource(Rez.Strings.label_cabin), Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
