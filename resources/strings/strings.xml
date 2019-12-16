@@ -48,6 +48,7 @@
     <string id="label_hvac_off">HVAC Off</string>
     <string id="label_lock_doors">Lock Doors</string>
     <string id="label_locked">Locked</string>
+    <string id="label_login_on_phone">Login on Phone!</string>
     <string id="label_oauth_error">Auth. error</string>
     <string id="label_off">Off</string>
     <string id="label_on">On</string>

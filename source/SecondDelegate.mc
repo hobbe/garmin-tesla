@@ -165,8 +165,29 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         }
 
         if (_token == null) {
-            _tesla = new Tesla(null);
-            _tesla.authenticate(Settings.getEmail(), Settings.getPassword(), method(:onAuthentication));
+            var email = Settings.getEmail();
+            var password = Settings.getPassword();
+
+            if (email != null && password != null) {
+                // Use Tesla authenticate API
+                _tesla = new Tesla(null);
+                _tesla.authenticate(email, password, method(:onAuthentication));
+            } else {
+                // Use custom web site for authentication
+                _handler.invoke(Ui.loadResource(Rez.Strings.label_login_on_phone));
+                Communications.registerForOAuthMessages(method(:onOAuthMessage));
+                Communications.makeOAuthRequest(
+                    "https://dasbrennen.org/tesla/tesla.html",
+                    {},
+                    "https://dasbrennen.org/tesla/tesla-done.html",
+                    Communications.OAUTH_RESULT_TYPE_URL,
+                    {
+                        "responseCode" => "OAUTH_CODE",
+                        "responseError" => "OAUTH_ERROR"
+                    }
+                );
+            }
+
             return;
         }
 
@@ -413,6 +434,18 @@ class SecondDelegate extends Ui.BehaviorDelegate {
     }
 
     function onAuthentication(token) {
+        _handleAuthenticationResponse(token);
+    }
+
+    function onOAuthMessage(message) {
+        var token = null;
+        if (message != null && message.data != null) {
+            token = message.data["OAUTH_CODE"];
+        }
+        _handleAuthenticationResponse(token);
+    }
+
+    function _handleAuthenticationResponse(token) {
         if (token != null) {
             _saveToken(token);
             _stateMachine();
