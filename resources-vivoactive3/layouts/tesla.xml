@@ -12,5 +12,5 @@
     
     <!-- icons -->
    	<bitmap id="UpIcon" x="center" y="12" filename="../drawables/up_12.png" dithering="none" />
-   	<bitmap id="DownIcon" x="center" y="228" filename="../drawables/down_12.png" />
+   	<bitmap id="DownIcon" x="center" y="228" filename="../drawables/down_12.png" dithering="none" />
 </layout>
