@@ -40,28 +40,30 @@ class SecondView extends Ui.View {
             var center_y = dc.getHeight()/2;
             dc.setColor(Graphics.COLOR_DK_RED, Graphics.COLOR_BLACK);
             dc.drawText(center_x, center_y, Graphics.FONT_SMALL, _display, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
-        } else {
 
-            var _vehicle = _data.getVehicle();
-            if (_vehicle != null) {
-                drawVehicleName(_vehicle.get("vehicle_name"));
-                drawLockedStatus(_vehicle.get("locked"));
+        } else {
+            // Tesla layout
+
+            var vehicle = _data.getVehicle();
+            if (vehicle != null) {
+                drawVehicleName(vehicle.get("vehicle_name"));
+                drawLockedStatus(vehicle.get("locked"));
             }
 
-            var _charge = _data.getCharge();
-            drawBatteryLevel(_charge);
+            var charge = _data.getCharge();
+            drawBatteryLevel(charge);
 
-            var _climate = _data.getClimate();
-            drawTemperature(_climate);
-            drawClimateStatus(_climate);
+            var climate = _data.getClimate();
+            drawTemperature(climate);
+            drawClimateStatus(climate);
 
             // Call the parent onUpdate function to redraw the layout
             View.onUpdate(dc);
 
             // Draw additional info on dc
             drawDefaultGauge(dc);
-            if (_charge != null) {
-                drawBatteryLevelGauge(dc, _charge);
+            if (charge != null) {
+                drawBatteryLevelGauge(dc, charge);
             }
         }
     }
@@ -77,11 +79,13 @@ class SecondView extends Ui.View {
         WatchUi.requestUpdate();
     }
 
+    //! Fill in vehicle name field
     hidden function drawVehicleName(vehicleName) {
         var view = View.findDrawableById(LabelVehicleName);
         view.setText(vehicleName);
     }
 
+    //! Fill in status of door locking
     hidden function drawLockedStatus(locked) {
         var view = View.findDrawableById(LabelLocked);
         if (locked) {
@@ -97,13 +101,7 @@ class SecondView extends Ui.View {
     hidden function drawDefaultGauge(dc) {
         var center_x = dc.getWidth()/2;
         var center_y = dc.getHeight()/2;
-        var radius = null;
-
-        if (center_x < center_y) {
-            radius = center_x-5;
-        } else {
-            radius = center_y-5;
-        }
+        var radius = calculateRadius(center_x, center_y);
 
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
         dc.setPenWidth(5);
@@ -114,26 +112,20 @@ class SecondView extends Ui.View {
     hidden function drawBatteryLevelGauge(dc, charge) {
         var center_x = dc.getWidth()/2;
         var center_y = dc.getHeight()/2;
-        var radius = null;
-
-        if (center_x < center_y) {
-            radius = center_x-5;
-        } else {
-            radius = center_y-5;
-        }
+        var radius = calculateRadius(center_x, center_y);
 
         var batteryLevel = charge.get("battery_level");
-        var requested_charge = charge.get("charge_limit_soc");
-        var angle = (180 - (batteryLevel * 180 / 100)) % 360;
-
+        var angle = calculateAngle(batteryLevel);
         dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_BLACK);
         dc.drawArc(center_x, center_y, radius, Graphics.ARC_CLOCKWISE, 180, angle);
 
+        var requestedCharge = charge.get("charge_limit_soc");
+        angle = calculateAngle(requestedCharge);
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_BLACK);
-        angle = 180 - (requested_charge * 180 / 100);
         dc.drawArc(center_x, center_y, radius, Graphics.ARC_CLOCKWISE, angle-1, angle-4);
     }
 
+    //! Fill in the battery level field
     hidden function drawBatteryLevel(charge) {
         var view = View.findDrawableById(LabelCharge);
 
@@ -151,29 +143,29 @@ class SecondView extends Ui.View {
         }
     }
 
+    //! Fill in the temperature field
     hidden function drawTemperature(climate) {
         var view = View.findDrawableById(LabelTemp);
 
         if (climate != null) {
-            var temp = climate.get("inside_temp").toNumber();
+            var insideTemp = climate.get("inside_temp").toNumber();
 
             var imperial = Application.getApp().getProperty("imperial");
             if (imperial) {
-                temp = temp * 9 / 5;
-                temp = temp + 32;
+                insideTemp = (insideTemp * 9 / 5) + 32;
             }
 
-            view.setText(Ui.loadResource(Rez.Strings.label_cabin) + temp.toString() + (imperial ? "°F" : "°C"));
+            view.setText(Ui.loadResource(Rez.Strings.label_cabin) + insideTemp.toString() + (imperial ? "°F" : "°C"));
          } else {
             view.setText(Ui.loadResource(Rez.Strings.label_cabin) + "-");
          }
     }
 
+    //! Fill in the climate status field
     hidden function drawClimateStatus(climate) {
         var view = View.findDrawableById(LabelClimate);
 
         if (climate != null) {
-            // Climate status
             var on = climate.get("is_climate_on") ? Ui.loadResource(Rez.Strings.label_on) : Ui.loadResource(Rez.Strings.label_off);
             view.setText(Ui.loadResource(Rez.Strings.label_climate) + on);
         } else {
@@ -181,4 +173,11 @@ class SecondView extends Ui.View {
         }
     }
 
+    hidden function calculateRadius(x, y) {
+        return (x < y) ? x-2 : y-2;
+    }
+
+    hidden function calculateAngle(value) {
+        return (180 - (value * 180 / 100)) % 360;
+    }
 }
