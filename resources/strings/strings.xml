@@ -18,12 +18,12 @@
     <string id="menu_label_reset">Reset...</string>
     <string id="menu_label_honk">Honk</string>
     <string id="menu_label_flash_lights">Flash lights</string>
-    <string id="menu_label_toggle">Toggle C vs. F</string>
-    <string id="menu_label_frunk">Frunk</string>
-    <string id="menu_label_trunk">Trunk</string>
-    <string id="menu_label_open_charge_port">Open Charge Port</string>
-    <string id="menu_label_close_charge_port">Close Charge Port</string>
-    <string id="menu_label_unplug">*Unplug*</string>
+    <string id="menu_label_toggle">Toggle °C/°F</string>
+    <string id="menu_label_frunk">Open frunk</string>
+    <string id="menu_label_trunk">Actuate trunk</string>
+    <string id="menu_label_open_charge_port">Open charge port</string>
+    <string id="menu_label_close_charge_port">Close charge port</string>
+    <string id="menu_label_unplug">Unplug</string>
 
 	<!--  Second view -->
     <string id="label_cabin">Cabin: </string>
