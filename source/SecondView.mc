@@ -150,7 +150,7 @@ class SecondView extends Ui.View {
         if (climate != null) {
             var insideTemp = climate.get("inside_temp").toNumber();
 
-            var imperial = Application.getApp().getProperty("imperial");
+            var imperial = Settings.isImperialUnits();
             if (imperial) {
                 insideTemp = (insideTemp * 9 / 5) + 32;
             }

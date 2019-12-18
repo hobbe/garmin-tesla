@@ -34,7 +34,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         _dummy_mode = false;
         _data = data;
         _token = Settings.getToken();
-        _vehicle_id = Application.getApp().getProperty("vehicle");
+        _vehicle_id = Settings.getVehicle();
         _sleep_timer = new Timer.Timer();
         _handler = handler;
         _tesla = null;
@@ -75,16 +75,12 @@ class SecondDelegate extends Ui.BehaviorDelegate {
     //! Scenario to reset the authentication token.
     function resetToken() {
         Settings.setToken(null);
-        Application.getApp().setProperty("vehicle", null);
+        Settings.setVehicle(null);
     }
 
     //! Scenario to toggle temperature units from °C to °F.
     function toggleUnits() {
-        var units = Application.getApp().getProperty("imperial");
-        if (units == null) {
-            units = false;
-        }
-        Application.getApp().setProperty("imperial", !units);
+        Settings.setImperialUnits(!Settings.isImperialUnits());
     }
 
     //! Scenario to honk the horn.
@@ -340,7 +336,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         if (responseCode == 200) {
             System.println("Got vehicles");
             _vehicle_id = data.get("response")[0].get("id");
-            Application.getApp().setProperty("vehicle", _vehicle_id);
+            Settings.setVehicle(_vehicle_id);
             _stateMachine();
         } else {
             _handleErrorResponse("onReceiveVehicles", responseCode, false, _handler);

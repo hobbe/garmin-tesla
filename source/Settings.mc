@@ -31,6 +31,29 @@ module Settings {
         return value;
     }
 
+    //! Store the units for temperature, true if imperial (statute) else false (metric)
+    function setImperialUnits(imperial) {
+        Application.getApp().setProperty(IMPERIAL, imperial);
+    }
+
+    //! Get the units for temperature, true if imperial (statute) else false (metric)
+    function isImperialUnits() {
+        return _getBooleanProperty(IMPERIAL, System.getDeviceSettings().temperatureUnits == System.UNIT_STATUTE);
+    }
+
+    //! Store vehicle name
+    function setVehicle(name) {
+        Application.getApp().setProperty(VEHICLE, name);
+        System.println("Settings: vehicle set to " + name);
+    }
+
+    //! Get vehicle name
+    function getVehicle() {
+        var value = _getStringProperty(VEHICLE);
+        System.println("Settings: vehicle name is " + value);
+        return value;
+    }
+
     function _getStringProperty(propertyName) {
         var value = Application.getApp().getProperty(propertyName);
         if (value == null || !(value instanceof Toybox.Lang.String) || "".equals(value)) {
@@ -41,8 +64,26 @@ module Settings {
         return value;
     }
 
+    function _getBooleanProperty(propertyName, defaultValue) {
+        var app = Application.getApp();
+        var value = app.getProperty(propertyName);
+
+        if (value != null && value instanceof Toybox.Lang.Boolean) {
+            return value;
+        }
+
+        // Else default value
+        app.setProperty(propertyName, defaultValue);
+        return defaultValue;
+    }
+
+    // Stored properties
+    const IMPERIAL = "imperial";
+    const VEHICLE = "vehicle";
+
     // Settings name, see resources/settings/settings.xml
     const TOKEN = "token";
     const EMAIL = "email";
     const PASSWORD = "password";
+
 }
