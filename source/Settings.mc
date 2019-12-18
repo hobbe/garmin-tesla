@@ -31,7 +31,7 @@ module Settings {
         return value;
     }
 
-    hidden function _getStringProperty(propertyName) {
+    function _getStringProperty(propertyName) {
         var value = Application.getApp().getProperty(propertyName);
         if (value == null || !(value instanceof Toybox.Lang.String) || "".equals(value)) {
             value = null;
