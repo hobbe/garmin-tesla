@@ -2,11 +2,11 @@ using Toybox.WatchUi as Ui;
 
 class SecondView extends Ui.View {
 
-    hidden const LabelVehicleName = "label_vehicle";
-    hidden const LabelLocked = "label_locked";
-    hidden const LabelCharge = "label_charge";
-    hidden const LabelTemp = "label_temp";
-    hidden const LabelClimate = "label_climate";
+    hidden const LabelVehicleName = "vehicle";
+    hidden const LabelLocked = "locked";
+    hidden const LabelCharge = "charge";
+    hidden const LabelTemp = "temp";
+    hidden const LabelClimate = "climate";
 
     hidden var _display;
     hidden var _data;

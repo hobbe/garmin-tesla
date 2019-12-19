@@ -1,10 +1,10 @@
 <layout id="TeslaLayout">
     <!-- info labels -->
-    <label x="center" y="60" id="label_vehicle" text="" font="Graphics.FONT_TINY" color="Gfx.COLOR_RED" justification="Gfx.TEXT_JUSTIFY_CENTER|Gfx.TEXT_JUSTIFY_VCENTER" />
-    <label x="center" y="190" id="label_locked" text="" font="Graphics.FONT_TINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER|Gfx.TEXT_JUSTIFY_VCENTER" />
-    <label x="center" y="100" id="label_charge" text="@Strings.label_charge" font="Graphics.FONT_TINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER|Gfx.TEXT_JUSTIFY_VCENTER" />
-    <label x="center" y="130" id="label_temp" text="@Strings.label_cabin" font="Graphics.FONT_TINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER|Gfx.TEXT_JUSTIFY_VCENTER" />
-    <label x="center" y="160" id="label_climate" text="@Strings.label_climate" font="Graphics.FONT_TINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER|Gfx.TEXT_JUSTIFY_VCENTER" />
+    <label x="center" y="60" id="vehicle" text="" font="Graphics.FONT_TINY" color="Gfx.COLOR_RED" justification="Gfx.TEXT_JUSTIFY_CENTER|Gfx.TEXT_JUSTIFY_VCENTER" />
+    <label x="center" y="190" id="locked" text="" font="Graphics.FONT_TINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER|Gfx.TEXT_JUSTIFY_VCENTER" />
+    <label x="center" y="100" id="charge" text="@Strings.label_charge" font="Graphics.FONT_TINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER|Gfx.TEXT_JUSTIFY_VCENTER" />
+    <label x="center" y="130" id="temp" text="@Strings.label_cabin" font="Graphics.FONT_TINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER|Gfx.TEXT_JUSTIFY_VCENTER" />
+    <label x="center" y="160" id="climate" text="@Strings.label_climate" font="Graphics.FONT_TINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER|Gfx.TEXT_JUSTIFY_VCENTER" />
 
     <!-- button labels -->
     <label x="center" y="20" font="Graphics.FONT_XTINY" text="@Strings.button_frunk" color="Gfx.COLOR_BLUE" justification="Gfx.TEXT_JUSTIFY_CENTER" />
