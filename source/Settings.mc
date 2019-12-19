@@ -6,14 +6,18 @@ module Settings {
 
     //! Store auth token
     function setToken(token) {
-        Application.getApp().setProperty(TOKEN, token);
-        System.println("Settings: token set to " + token);
+        var value = null;
+        if (token != null) {
+            value = token.toString();
+        }
+        Application.getApp().setProperty(TOKEN, value);
+        System.println("Settings: token set to " + value);
     }
 
     //! Get auth token
     function getToken() {
         var value = _getStringProperty(TOKEN);
-        System.println("Settings: token value is " + value);
+        System.println("Settings: token is " + value);
         return value;
     }
 
@@ -41,16 +45,20 @@ module Settings {
         return _getBooleanProperty(IMPERIAL, System.getDeviceSettings().temperatureUnits == System.UNIT_STATUTE);
     }
 
-    //! Store vehicle name
-    function setVehicle(name) {
-        Application.getApp().setProperty(VEHICLE, name);
-        System.println("Settings: vehicle set to " + name);
+    //! Store vehicle ID
+    function setVehicleId(id) {
+        var value = null;
+        if (id != null) {
+            value = id.toString();
+        }
+        Application.getApp().setProperty(VEHICLE, value);
+        System.println("Settings: vehicle ID set to " + value);
     }
 
-    //! Get vehicle name
-    function getVehicle() {
+    //! Get vehicle ID
+    function getVehicleId() {
         var value = _getStringProperty(VEHICLE);
-        System.println("Settings: vehicle name is " + value);
+        System.println("Settings: vehicle ID is " + value);
         return value;
     }
 

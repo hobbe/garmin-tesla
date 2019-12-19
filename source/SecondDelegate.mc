@@ -34,7 +34,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         _dummy_mode = false;
         _data = data;
         _token = Settings.getToken();
-        _vehicle_id = Settings.getVehicle();
+        _vehicle_id = Settings.getVehicleId();
         _sleep_timer = new Timer.Timer();
         _handler = handler;
         _tesla = null;
@@ -75,7 +75,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
     //! Scenario to reset the authentication token.
     function resetToken() {
         Settings.setToken(null);
-        Settings.setVehicle(null);
+        Settings.setVehicleId(null);
     }
 
     //! Scenario to toggle temperature units from °C to °F.
@@ -336,7 +336,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         if (responseCode == 200) {
             System.println("Got vehicles");
             _vehicle_id = data.get("response")[0].get("id");
-            Settings.setVehicle(_vehicle_id);
+            Settings.setVehicleId(_vehicle_id);
             _stateMachine();
         } else {
             _handleErrorResponse("onReceiveVehicles", responseCode, false, _handler);
@@ -466,6 +466,11 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         if (responseCode == -104) {
             // BLE_CONNECTION_UNAVAILABLE
             handler.invoke(Ui.loadResource(Rez.Strings.label_error__104));
+            return;
+        }
+        if (responseCode == -403) {
+            // NETWORK_RESPONSE_OUT_OF_MEMORY
+            handler.invoke(Ui.loadResource(Rez.Strings.label_error__403));
             return;
         }
         if (responseCode == 401) {

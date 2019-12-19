@@ -36,6 +36,7 @@
     <string id="label_error__101">Queue full</string>
     <string id="label_error__103">Sending error</string>
     <string id="label_error__104">Unavailable</string>
+    <string id="label_error__403">Out of memory</string>
     <string id="label_error_401">Unauthorized</string>
     <string id="label_error_404">Unavailable</string>
     <string id="label_error_408">Request timeout</string>

@@ -36,6 +36,7 @@
     <string id="label_error__101">File pleine</string>
     <string id="label_error__103">Erreur d'envoi</string>
     <string id="label_error__104">Non-disponible</string>
+    <string id="label_error__403">Mémoire pleine</string>
     <string id="label_error_401">Non-autorisé</string>
     <string id="label_error_404">Non-disponible</string>
     <string id="label_error_408">Délai dépassé</string>
@@ -61,8 +62,8 @@
 	<!--  Settings -->
     <string id="setting_token_label">Clé d'API</string>
     <string id="setting_token_prompt">Entrer la clé d'API Tesla (Token)</string>
-    <string id="setting_email_label">Email</string>
+    <string id="setting_email_label">Identifiant</string>
     <string id="setting_email_prompt">Entrer votre identifiant Tesla (Email)</string>
-    <string id="setting_password_label">Password</string>
+    <string id="setting_password_label">Mot de passe</string>
     <string id="setting_password_prompt">Enter votre mot de passe Tesla</string>
 </strings>
