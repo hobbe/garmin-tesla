@@ -127,10 +127,14 @@ class Tesla {
         var token = null;
         if (responseCode == 200) {
             token = data.get("access_token");
-            System.println("Authentication token: " + token);
+            if (Log.DEBUG) {
+                Log.debug("Authentication token: " + token);
+            }
             _token = "Bearer " + data.get("access_token");
         } else {
-            System.println("Authentication error: " + responseCode.toString());
+            if (Log.DEBUG) {
+                Log.debug("Authentication error: " + responseCode.toString());
+            }
         }
         if (_callback != null) {
             _callback.invoke(token);
@@ -138,7 +142,9 @@ class Tesla {
     }
 
     hidden function _genericGet(url, notify) {
-        System.println("GET: " + url);
+        if (Log.DEBUG) {
+            Log.debug("GET: " + url);
+        }
         Communications.makeWebRequest(
             url,
             null,
@@ -154,7 +160,9 @@ class Tesla {
     }
 
     hidden function _genericPost(url, params, notify) {
-        System.println("POST: " + url);
+        if (Log.DEBUG) {
+            Log.debug("POST: " + url);
+        }
         Communications.makeWebRequest(
             url,
             params,

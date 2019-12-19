@@ -334,7 +334,9 @@ class SecondDelegate extends Ui.BehaviorDelegate {
 
     function onReceiveVehicles(responseCode, data) {
         if (responseCode == 200) {
-            System.println("Got vehicles");
+            if (Log.DEBUG) {
+                Log.debug("Got vehicles");
+            }
             _vehicle_id = data.get("response")[0].get("id");
             Settings.setVehicleId(_vehicle_id);
             _stateMachine();
@@ -349,7 +351,9 @@ class SecondDelegate extends Ui.BehaviorDelegate {
     function onReceiveVehicle(responseCode, data) {
         if (responseCode == 200) {
             var vehicle = new VehicleData(data.get("response"));
-            System.println("Got vehicle");
+            if (Log.DEBUG) {
+                Log.debug("Got vehicle");
+            }
             _data.setVehicle(vehicle);
             _handler.invoke(null);
         } else {
@@ -362,7 +366,9 @@ class SecondDelegate extends Ui.BehaviorDelegate {
             var climate = new ClimateData(data.get("response"));
             _data.setClimate(climate);
             if (climate.isValid()) {
-                System.println("Got climate: " + climate.getInsideTemp() + "C " + (climate.isOn() ? "(on)" : "(off)"));
+                if (Log.DEBUG) {
+                    Log.debug("Got climate: " + climate.getInsideTemp() + "C " + (climate.isOn() ? "(on)" : "(off)"));
+                }
                 _handler.invoke(null);
             } else {
                 _wake_done = false;
@@ -378,7 +384,9 @@ class SecondDelegate extends Ui.BehaviorDelegate {
             var charge = new ChargeData(data.get("response"));
             _data.setCharge(charge);
             if (charge.isValid()) {
-                System.println("Got charge: " + (charge.isCharging() ? "on" : "off") + " " + charge.getBatteryLevel() + "/" + charge.getChargeLimitSoc() + "%");
+                if (Log.DEBUG) {
+                    Log.debug("Got charge: " + (charge.isCharging() ? "on" : "off") + " " + charge.getBatteryLevel() + "/" + charge.getChargeLimitSoc() + "%");
+                }
                 _handler.invoke(null);
             } else {
                 _wake_done = false;
@@ -453,7 +461,9 @@ class SecondDelegate extends Ui.BehaviorDelegate {
     }
 
     function _handleErrorResponse(methodName, responseCode, retryOnTimeout, handler) {
-        System.println(methodName + " - Error " + responseCode.toString());
+        if (Log.DEBUG) {
+            Log.debug(methodName + " - Error " + responseCode.toString());
+        }
         if (responseCode == -101) {
             // BLE_QUEUE_FULL
             handler.invoke(Ui.loadResource(Rez.Strings.label_error__101));

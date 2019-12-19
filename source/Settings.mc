@@ -11,38 +11,53 @@ module Settings {
             value = token.toString();
         }
         Application.getApp().setProperty(TOKEN, value);
-        System.println("Settings: token set to " + value);
+        if (Log.DEBUG) {
+            Log.debug("Settings: token set to " + value);
+        }
     }
 
     //! Get auth token
     function getToken() {
         var value = _getStringProperty(TOKEN);
-        System.println("Settings: token is " + value);
+        if (Log.DEBUG) {
+            Log.debug("Settings: token is " + value);
+        }
         return value;
     }
 
     //! Get Tesla account email
     function getEmail() {
         var value = _getStringProperty(EMAIL);
-        System.println("Settings: account email is " + value);
+        if (Log.DEBUG) {
+            Log.debug("Settings: account email is " + value);
+        }
         return value;
     }
 
     //! Get Tesla account password
     function getPassword() {
         var value = _getStringProperty(PASSWORD);
-        System.println("Settings: account password is *****");
+        if (Log.DEBUG) {
+            Log.debug("Settings: account password is *****");
+        }
         return value;
     }
 
     //! Store the units for temperature, true if imperial (statute) else false (metric)
     function setImperialUnits(imperial) {
         Application.getApp().setProperty(IMPERIAL, imperial);
+        if (Log.DEBUG) {
+            Log.debug("Settings: imperial units set to " + imperial);
+        }
     }
 
     //! Get the units for temperature, true if imperial (statute) else false (metric)
     function isImperialUnits() {
-        return _getBooleanProperty(IMPERIAL, System.getDeviceSettings().temperatureUnits == System.UNIT_STATUTE);
+        var value = _getBooleanProperty(IMPERIAL, System.getDeviceSettings().temperatureUnits == System.UNIT_STATUTE);
+        if (Log.DEBUG) {
+            Log.debug("Settings: imperial units is " + value);
+        }
+        return value;
     }
 
     //! Store vehicle ID
@@ -52,13 +67,17 @@ module Settings {
             value = id.toString();
         }
         Application.getApp().setProperty(VEHICLE, value);
-        System.println("Settings: vehicle ID set to " + value);
+        if (Log.DEBUG) {
+            Log.debug("Settings: vehicle ID set to " + value);
+        }
     }
 
     //! Get vehicle ID
     function getVehicleId() {
         var value = _getStringProperty(VEHICLE);
-        System.println("Settings: vehicle ID is " + value);
+        if (Log.DEBUG) {
+            Log.debug("Settings: vehicle ID is " + value);
+        }
         return value;
     }
 
