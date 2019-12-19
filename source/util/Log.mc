@@ -29,7 +29,7 @@ using Toybox.System as System;
 //!   }
 module Log {
 
-    const DEBUG = false;
+    const DEBUG = true;
 
     //! Writes a debug message on system console
     function debug(message) {

@@ -5,7 +5,6 @@ using Toybox.Communications as Communications;
 class SecondDelegate extends Ui.BehaviorDelegate {
     hidden var _dummy_mode;
     hidden var _handler;
-    hidden var _token;
     hidden var _tesla;
     hidden var _sleep_timer;
     hidden var _vehicle_id;
@@ -33,7 +32,6 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         BehaviorDelegate.initialize();
         _dummy_mode = false;
         _data = data;
-        _token = Settings.getToken();
         _vehicle_id = Settings.getVehicleId();
         _sleep_timer = new Timer.Timer();
         _handler = handler;
@@ -160,7 +158,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
             return;
         }
 
-        if (_token == null) {
+        if (Settings.getToken() == null) {
             var email = Settings.getEmail();
             var password = Settings.getPassword();
 
@@ -188,7 +186,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         }
 
         if (_tesla == null) {
-            _tesla = new Tesla(_token);
+            _tesla = new Tesla(Settings.getToken());
         }
 
         if (_vehicle_id == null) {
@@ -451,11 +449,10 @@ class SecondDelegate extends Ui.BehaviorDelegate {
     }
 
     function _handleAuthenticationResponse(token) {
+        Settings.setToken(token);
         if (token != null) {
-            _saveToken(token);
             _stateMachine();
         } else {
-            _resetToken();
             _handler.invoke(Ui.loadResource(Rez.Strings.label_oauth_error));
         }
     }
@@ -486,7 +483,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         }
         if (responseCode == 401) {
             // Unauthorized
-            _resetToken();
+            Settings.setToken(null);
             handler.invoke(Ui.loadResource(Rez.Strings.label_error_401));
             return;
         }
@@ -506,16 +503,6 @@ class SecondDelegate extends Ui.BehaviorDelegate {
             return;
         }
         handler.invoke(Ui.loadResource(Rez.Strings.label_error) + responseCode.toString());
-    }
-
-    hidden function _saveToken(token) {
-        _token = token;
-        Settings.setToken(token);
-    }
-
-    hidden function _resetToken() {
-        _token = null;
-        Settings.setToken(null);
     }
 
 }
