@@ -46,8 +46,8 @@ class SecondView extends Ui.View {
 
             var vehicle = _data.getVehicle();
             if (vehicle != null) {
-                drawVehicleName(vehicle.get("vehicle_name"));
-                drawLockedStatus(vehicle.get("locked"));
+                drawVehicleName(vehicle.getName());
+                drawLockedStatus(vehicle.isLocked());
             }
 
             var charge = _data.getCharge();
@@ -114,12 +114,12 @@ class SecondView extends Ui.View {
         var center_y = dc.getHeight()/2;
         var radius = calculateRadius(center_x, center_y);
 
-        var batteryLevel = charge.get("battery_level");
+        var batteryLevel = charge.getBatteryLevel();
         var angle = calculateAngle(batteryLevel);
         dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_BLACK);
         dc.drawArc(center_x, center_y, radius, Graphics.ARC_CLOCKWISE, 180, angle);
 
-        var requestedCharge = charge.get("charge_limit_soc");
+        var requestedCharge = charge.getChargeLimitSoc();
         angle = calculateAngle(requestedCharge);
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_BLACK);
         dc.drawArc(center_x, center_y, radius, Graphics.ARC_CLOCKWISE, angle-1, angle-4);
@@ -130,10 +130,9 @@ class SecondView extends Ui.View {
         var view = View.findDrawableById(LabelCharge);
 
         if (charge != null) {
-            var batteryLevel = charge.get("battery_level");
-            var chargingState = charge.get("charging_state");
+            var batteryLevel = charge.getBatteryLevel();
 
-            if ("Charging".equals(chargingState)) {
+            if (charge.isCharging()) {
                 view.setColor(Graphics.COLOR_RED);
             }
 
@@ -148,7 +147,7 @@ class SecondView extends Ui.View {
         var view = View.findDrawableById(LabelTemp);
 
         if (climate != null) {
-            var insideTemp = climate.get("inside_temp").toNumber();
+            var insideTemp = climate.getInsideTemp();
 
             var imperial = Settings.isImperialUnits();
             if (imperial) {
@@ -166,7 +165,7 @@ class SecondView extends Ui.View {
         var view = View.findDrawableById(LabelClimate);
 
         if (climate != null) {
-            var on = climate.get("is_climate_on") ? Ui.loadResource(Rez.Strings.label_on) : Ui.loadResource(Rez.Strings.label_off);
+            var on = climate.isOn() ? Ui.loadResource(Rez.Strings.label_on) : Ui.loadResource(Rez.Strings.label_off);
             view.setText(Ui.loadResource(Rez.Strings.label_climate) + on);
         } else {
             view.setText(Ui.loadResource(Rez.Strings.label_climate) + "-");

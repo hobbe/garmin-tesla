@@ -98,7 +98,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
     //! Scenario to turn climate on or off.
     function toggleClimate() {
         var climate = _data.getClimate();
-        if (climate != null && climate.hasKey("is_climate_on") && !climate.get("is_climate_on")) {
+        if (climate != null && !climate.isOn()) {
             _set_climate_on = true;
         } else {
             _set_climate_off = true;
@@ -348,8 +348,9 @@ class SecondDelegate extends Ui.BehaviorDelegate {
 
     function onReceiveVehicle(responseCode, data) {
         if (responseCode == 200) {
+            var vehicle = new VehicleData(data.get("response"));
             System.println("Got vehicle");
-            _data.setVehicle(data.get("response"));
+            _data.setVehicle(vehicle);
             _handler.invoke(null);
         } else {
             _handleErrorResponse("onReceiveVehicle", responseCode, true, _handler);
@@ -358,10 +359,10 @@ class SecondDelegate extends Ui.BehaviorDelegate {
 
     function onReceiveClimate(responseCode, data) {
         if (responseCode == 200) {
-            var climate = data.get("response");
+            var climate = new ClimateData(data.get("response"));
             _data.setClimate(climate);
-            if (climate.hasKey("inside_temp") && climate.hasKey("is_climate_on")) {
-                System.println("Got climate");
+            if (climate.isValid()) {
+                System.println("Got climate: " + climate.getInsideTemp() + "C " + (climate.isOn() ? "(on)" : "(off)"));
                 _handler.invoke(null);
             } else {
                 _wake_done = false;
@@ -374,10 +375,10 @@ class SecondDelegate extends Ui.BehaviorDelegate {
 
     function onReceiveCharge(responseCode, data) {
         if (responseCode == 200) {
-            var charge = data.get("response");
+            var charge = new ChargeData(data.get("response"));
             _data.setCharge(charge);
-            if (charge.hasKey("battery_level") && charge.hasKey("charge_limit_soc") && charge.hasKey("charging_state")) {
-                System.println("Got charge");
+            if (charge.isValid()) {
+                System.println("Got charge: " + (charge.isCharging() ? "on" : "off") + " " + charge.getBatteryLevel() + "/" + charge.getChargeLimitSoc() + "%");
                 _handler.invoke(null);
             } else {
                 _wake_done = false;
