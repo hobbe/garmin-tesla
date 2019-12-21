@@ -19,17 +19,45 @@
 //! IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 //! CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Toybox.WatchUi as Ui;
+//! Represents the climate data from the Tesla API.
+//! Only provides the fields necessary for the application.
+class ClimateData {
 
-class OfflineView extends Ui.View {
+    //! Initialize a climate data model based on the Tesla API response.
+    function initialize(climate) {
+        _isValid = false;
+        _isOn = false;
+        _insideTemp = 0;
 
-    function initialize() {
-        View.initialize();
+        if (climate != null) {
+            _isValid = true;
+
+            if (climate.hasKey("is_climate_on")) {
+                _isOn = climate.get("is_climate_on");
+            }
+            if (climate.hasKey("inside_temp")) {
+                _insideTemp = climate.get("inside_temp").toNumber();
+            }
+        }
     }
 
-    //! Load your resources here
-    function onLayout(dc) {
-        setLayout(Rez.Layouts.OfflineLayout(dc));
+    //! Data model is valid
+    function isValid() {
+        return _isValid;
     }
 
+    //! Returns true if the climate is on, else false.
+    function isOn() {
+        return _isOn;
+    }
+
+    //! Get the vehicle inside temperature in celcius
+    function getInsideTemp() {
+        return _insideTemp;
+    }
+
+
+    hidden var _isValid = false;
+    hidden var _isOn;
+    hidden var _insideTemp;
 }

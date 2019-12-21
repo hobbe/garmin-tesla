@@ -19,17 +19,30 @@
 //! IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 //! CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Toybox.WatchUi as Ui;
+using Toybox.Lang as Lang;
+using Toybox.System as System;
 
-class OfflineView extends Ui.View {
+//! Basic logging utility. Only supports DEBUG for now.
+//! Check for log level before calling the API:
+//!   if (Log.DEBUG) {
+//!       Log.debug(message);
+//!   }
+module Log {
 
-    function initialize() {
-        View.initialize();
-    }
+    const DEBUG = true;
 
-    //! Load your resources here
-    function onLayout(dc) {
-        setLayout(Rez.Layouts.OfflineLayout(dc));
+    //! Writes a debug message on system console
+    function debug(message) {
+        if (DEBUG) {
+            var clock = System.getClockTime();
+            var msg = Lang.format("$1$:$2$:$3$ - $4$", [
+                clock.hour.format("%02d"),
+                clock.min.format("%02d"),
+                clock.sec.format("%02d"),
+                message
+            ]);
+            System.println(msg);
+        }
     }
 
 }

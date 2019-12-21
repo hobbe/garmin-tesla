@@ -19,17 +19,36 @@
 //! IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 //! CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Toybox.WatchUi as Ui;
+//! Represents the vehicle data from the Tesla API.
+//! Only provides the fields necessary for the application.
+class VehicleData {
 
-class OfflineView extends Ui.View {
+    //! Initialize a vehicle data model based on the Tesla API response.
+    function initialize(vehicle) {
+        _name = "-";
+        _isLocked = false;
 
-    function initialize() {
-        View.initialize();
+        if (vehicle != null) {
+            if (vehicle.hasKey("vehicle_name")) {
+                _name = vehicle.get("vehicle_name");
+            }
+            if (vehicle.hasKey("locked")) {
+                _isLocked = vehicle.get("locked");
+            }
+        }
     }
 
-    //! Load your resources here
-    function onLayout(dc) {
-        setLayout(Rez.Layouts.OfflineLayout(dc));
+    //! Get the vehicle name.
+    function getName() {
+        return _name;
     }
 
+    //! Returns true if the vehicle is locked, else false.
+    function isLocked() {
+        return _isLocked;
+    }
+
+
+    hidden var _name;
+    hidden var _isLocked;
 }

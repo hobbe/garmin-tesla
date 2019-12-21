@@ -1,10 +1,10 @@
 <layout id="TeslaLayout">
     <!-- info labels -->
-    <label x="center" y="40" id="label_vehicle" text="" font="Graphics.FONT_TINY" color="Gfx.COLOR_RED" justification="Gfx.TEXT_JUSTIFY_CENTER|Gfx.TEXT_JUSTIFY_VCENTER" />
-    <label x="30" y="75" id="label_locked" text="" font="Graphics.FONT_TINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_LEFT|Gfx.TEXT_JUSTIFY_VCENTER" />
-    <label x="80" y="120" id="label_charge" text="@Strings.label_charge" font="Graphics.FONT_MEDIUM" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_LEFT|Gfx.TEXT_JUSTIFY_VCENTER" />
-    <label x="80" y="160" id="label_temp" text="@Strings.label_cabin" font="Graphics.FONT_MEDIUM" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_LEFT|Gfx.TEXT_JUSTIFY_VCENTER" />
-    <label x="80" y="200" id="label_climate" text="@Strings.label_climate" font="Graphics.FONT_MEDIUM" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_LEFT|Gfx.TEXT_JUSTIFY_VCENTER" />
+    <label x="center" y="40" id="vehicle" text="" font="Graphics.FONT_TINY" color="Gfx.COLOR_RED" justification="Gfx.TEXT_JUSTIFY_CENTER|Gfx.TEXT_JUSTIFY_VCENTER" />
+    <label x="30" y="75" id="locked" text="" font="Graphics.FONT_TINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_LEFT|Gfx.TEXT_JUSTIFY_VCENTER" />
+    <label x="80" y="120" id="charge" text="@Strings.label_charge" font="Graphics.FONT_MEDIUM" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_LEFT|Gfx.TEXT_JUSTIFY_VCENTER" />
+    <label x="80" y="160" id="temp" text="@Strings.label_cabin" font="Graphics.FONT_MEDIUM" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_LEFT|Gfx.TEXT_JUSTIFY_VCENTER" />
+    <label x="80" y="200" id="climate" text="@Strings.label_climate" font="Graphics.FONT_MEDIUM" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_LEFT|Gfx.TEXT_JUSTIFY_VCENTER" />
 
     <!-- button labels -->
     <label x="15" y="center" font="Graphics.FONT_XTINY" text="@Strings.button_frunk" color="Gfx.COLOR_BLUE" justification="Gfx.TEXT_JUSTIFY_LEFT" />

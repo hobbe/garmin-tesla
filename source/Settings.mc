@@ -1,3 +1,24 @@
+//! The MIT License (MIT)
+//!
+//! Copyright (c) 2019 Olivier Bagot
+//!
+//! Permission is hereby granted, free of charge, to any person obtaining a copy of
+//! this software and associated documentation files (the "Software"), to deal in
+//! the Software without restriction, including without limitation the rights to
+//! use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+//! the Software, and to permit persons to whom the Software is furnished to do so,
+//! subject to the following conditions:
+//!
+//! The above copyright notice and this permission notice shall be included in all
+//! copies or substantial portions of the Software.
+//!
+//! THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//! IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+//! FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+//! COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+//! IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+//! CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 using Toybox.Application as Application;
 using Toybox.System as System;
 
@@ -11,38 +32,53 @@ module Settings {
             value = token.toString();
         }
         Application.getApp().setProperty(TOKEN, value);
-        System.println("Settings: token set to " + value);
+        if (Log.DEBUG) {
+            Log.debug("Settings: token set to " + value);
+        }
     }
 
     //! Get auth token
     function getToken() {
         var value = _getStringProperty(TOKEN);
-        System.println("Settings: token is " + value);
+        if (Log.DEBUG) {
+            Log.debug("Settings: token is " + value);
+        }
         return value;
     }
 
     //! Get Tesla account email
     function getEmail() {
         var value = _getStringProperty(EMAIL);
-        System.println("Settings: account email is " + value);
+        if (Log.DEBUG) {
+            Log.debug("Settings: account email is " + value);
+        }
         return value;
     }
 
     //! Get Tesla account password
     function getPassword() {
         var value = _getStringProperty(PASSWORD);
-        System.println("Settings: account password is *****");
+        if (Log.DEBUG) {
+            Log.debug("Settings: account password is *****");
+        }
         return value;
     }
 
     //! Store the units for temperature, true if imperial (statute) else false (metric)
     function setImperialUnits(imperial) {
         Application.getApp().setProperty(IMPERIAL, imperial);
+        if (Log.DEBUG) {
+            Log.debug("Settings: imperial units set to " + imperial);
+        }
     }
 
     //! Get the units for temperature, true if imperial (statute) else false (metric)
     function isImperialUnits() {
-        return _getBooleanProperty(IMPERIAL, System.getDeviceSettings().temperatureUnits == System.UNIT_STATUTE);
+        var value = _getBooleanProperty(IMPERIAL, System.getDeviceSettings().temperatureUnits == System.UNIT_STATUTE);
+        if (Log.DEBUG) {
+            Log.debug("Settings: imperial units is " + value);
+        }
+        return value;
     }
 
     //! Store vehicle ID
@@ -52,13 +88,17 @@ module Settings {
             value = id.toString();
         }
         Application.getApp().setProperty(VEHICLE, value);
-        System.println("Settings: vehicle ID set to " + value);
+        if (Log.DEBUG) {
+            Log.debug("Settings: vehicle ID set to " + value);
+        }
     }
 
     //! Get vehicle ID
     function getVehicleId() {
         var value = _getStringProperty(VEHICLE);
-        System.println("Settings: vehicle ID is " + value);
+        if (Log.DEBUG) {
+            Log.debug("Settings: vehicle ID is " + value);
+        }
         return value;
     }
 

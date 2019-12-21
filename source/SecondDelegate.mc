@@ -5,7 +5,6 @@ using Toybox.Communications as Communications;
 class SecondDelegate extends Ui.BehaviorDelegate {
     hidden var _dummy_mode;
     hidden var _handler;
-    hidden var _token;
     hidden var _tesla;
     hidden var _sleep_timer;
     hidden var _vehicle_id;
@@ -33,7 +32,6 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         BehaviorDelegate.initialize();
         _dummy_mode = false;
         _data = data;
-        _token = Settings.getToken();
         _vehicle_id = Settings.getVehicleId();
         _sleep_timer = new Timer.Timer();
         _handler = handler;
@@ -98,7 +96,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
     //! Scenario to turn climate on or off.
     function toggleClimate() {
         var climate = _data.getClimate();
-        if (climate != null && climate.hasKey("is_climate_on") && !climate.get("is_climate_on")) {
+        if (climate != null && !climate.isOn()) {
             _set_climate_on = true;
         } else {
             _set_climate_off = true;
@@ -160,7 +158,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
             return;
         }
 
-        if (_token == null) {
+        if (Settings.getToken() == null) {
             var email = Settings.getEmail();
             var password = Settings.getPassword();
 
@@ -188,7 +186,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         }
 
         if (_tesla == null) {
-            _tesla = new Tesla(_token);
+            _tesla = new Tesla(Settings.getToken());
         }
 
         if (_vehicle_id == null) {
@@ -334,7 +332,9 @@ class SecondDelegate extends Ui.BehaviorDelegate {
 
     function onReceiveVehicles(responseCode, data) {
         if (responseCode == 200) {
-            System.println("Got vehicles");
+            if (Log.DEBUG) {
+                Log.debug("Got vehicles");
+            }
             _vehicle_id = data.get("response")[0].get("id");
             Settings.setVehicleId(_vehicle_id);
             _stateMachine();
@@ -348,8 +348,11 @@ class SecondDelegate extends Ui.BehaviorDelegate {
 
     function onReceiveVehicle(responseCode, data) {
         if (responseCode == 200) {
-            System.println("Got vehicle");
-            _data.setVehicle(data.get("response"));
+            var vehicle = new VehicleData(data.get("response"));
+            if (Log.DEBUG) {
+                Log.debug("Got vehicle");
+            }
+            _data.setVehicle(vehicle);
             _handler.invoke(null);
         } else {
             _handleErrorResponse("onReceiveVehicle", responseCode, true, _handler);
@@ -358,10 +361,12 @@ class SecondDelegate extends Ui.BehaviorDelegate {
 
     function onReceiveClimate(responseCode, data) {
         if (responseCode == 200) {
-            var climate = data.get("response");
+            var climate = new ClimateData(data.get("response"));
             _data.setClimate(climate);
-            if (climate.hasKey("inside_temp") && climate.hasKey("is_climate_on")) {
-                System.println("Got climate");
+            if (climate.isValid()) {
+                if (Log.DEBUG) {
+                    Log.debug("Got climate: " + climate.getInsideTemp() + "C " + (climate.isOn() ? "(on)" : "(off)"));
+                }
                 _handler.invoke(null);
             } else {
                 _wake_done = false;
@@ -374,10 +379,12 @@ class SecondDelegate extends Ui.BehaviorDelegate {
 
     function onReceiveCharge(responseCode, data) {
         if (responseCode == 200) {
-            var charge = data.get("response");
+            var charge = new ChargeData(data.get("response"));
             _data.setCharge(charge);
-            if (charge.hasKey("battery_level") && charge.hasKey("charge_limit_soc") && charge.hasKey("charging_state")) {
-                System.println("Got charge");
+            if (charge.isValid()) {
+                if (Log.DEBUG) {
+                    Log.debug("Got charge: " + (charge.isCharging() ? "on" : "off") + " " + charge.getBatteryLevel() + "/" + charge.getChargeLimitSoc() + "%");
+                }
                 _handler.invoke(null);
             } else {
                 _wake_done = false;
@@ -442,17 +449,18 @@ class SecondDelegate extends Ui.BehaviorDelegate {
     }
 
     function _handleAuthenticationResponse(token) {
+        Settings.setToken(token);
         if (token != null) {
-            _saveToken(token);
             _stateMachine();
         } else {
-            _resetToken();
             _handler.invoke(Ui.loadResource(Rez.Strings.label_oauth_error));
         }
     }
 
     function _handleErrorResponse(methodName, responseCode, retryOnTimeout, handler) {
-        System.println(methodName + " - Error " + responseCode.toString());
+        if (Log.DEBUG) {
+            Log.debug(methodName + " - Error " + responseCode.toString());
+        }
         if (responseCode == -101) {
             // BLE_QUEUE_FULL
             handler.invoke(Ui.loadResource(Rez.Strings.label_error__101));
@@ -475,7 +483,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
         }
         if (responseCode == 401) {
             // Unauthorized
-            _resetToken();
+            Settings.setToken(null);
             handler.invoke(Ui.loadResource(Rez.Strings.label_error_401));
             return;
         }
@@ -495,16 +503,6 @@ class SecondDelegate extends Ui.BehaviorDelegate {
             return;
         }
         handler.invoke(Ui.loadResource(Rez.Strings.label_error) + responseCode.toString());
-    }
-
-    hidden function _saveToken(token) {
-        _token = token;
-        Settings.setToken(token);
-    }
-
-    hidden function _resetToken() {
-        _token = null;
-        Settings.setToken(null);
     }
 
 }
