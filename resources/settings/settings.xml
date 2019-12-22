@@ -1,0 +1,11 @@
+<settings>
+	<setting propertyKey="@Properties.token" title="@Strings.setting_token_label" prompt="@Strings.setting_token_prompt">
+		<settingConfig type="alphaNumeric" />
+	</setting>
+	<setting propertyKey="@Properties.email" title="@Strings.setting_email_label" prompt="@Strings.setting_email_prompt">
+		<settingConfig type="alphaNumeric" />
+	</setting>
+	<setting propertyKey="@Properties.password" title="@Strings.setting_password_label" prompt="@Strings.setting_password_prompt">
+		<settingConfig type="alphaNumeric" />
+	</setting>
+</settings>

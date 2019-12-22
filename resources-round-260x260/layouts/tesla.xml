@@ -1,0 +1,13 @@
+<layout id="TeslaLayout">
+    <!-- info labels -->
+    <label x="center" y="40" id="vehicle" text="" font="Graphics.FONT_TINY" color="Gfx.COLOR_RED" justification="Gfx.TEXT_JUSTIFY_CENTER|Gfx.TEXT_JUSTIFY_VCENTER" />
+    <label x="30" y="75" id="locked" text="" font="Graphics.FONT_TINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_LEFT|Gfx.TEXT_JUSTIFY_VCENTER" />
+    <label x="80" y="120" id="charge" text="@Strings.label_charge" font="Graphics.FONT_MEDIUM" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_LEFT|Gfx.TEXT_JUSTIFY_VCENTER" />
+    <label x="80" y="155" id="temp" text="@Strings.label_cabin" font="Graphics.FONT_MEDIUM" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_LEFT|Gfx.TEXT_JUSTIFY_VCENTER" />
+    <label x="80" y="190" id="climate" text="@Strings.label_climate" font="Graphics.FONT_MEDIUM" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_LEFT|Gfx.TEXT_JUSTIFY_VCENTER" />
+
+    <!-- button labels -->
+    <label x="15" y="center" font="Graphics.FONT_TINY" text="@Strings.button_frunk" color="Gfx.COLOR_BLUE" justification="Gfx.TEXT_JUSTIFY_LEFT" />
+    <label x="20" y="160" font="Graphics.FONT_TINY" text="@Strings.button_door" color="Gfx.COLOR_BLUE" justification="Gfx.TEXT_JUSTIFY_LEFT" />
+    <label x="220" y="60" font="Graphics.FONT_TINY" text="@Strings.button_climate_on" color="Gfx.COLOR_BLUE" justification="Gfx.TEXT_JUSTIFY_RIGHT" />
+</layout>

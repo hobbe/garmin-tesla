@@ -1,0 +1,16 @@
+<layout id="TeslaLayout">
+    <!-- info labels -->
+    <label x="center" y="60" id="vehicle" text="" font="Graphics.FONT_TINY" color="Gfx.COLOR_RED" justification="Gfx.TEXT_JUSTIFY_CENTER|Gfx.TEXT_JUSTIFY_VCENTER" />
+    <label x="center" y="190" id="locked" text="" font="Graphics.FONT_TINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER|Gfx.TEXT_JUSTIFY_VCENTER" />
+    <label x="center" y="100" id="charge" text="@Strings.label_charge" font="Graphics.FONT_TINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER|Gfx.TEXT_JUSTIFY_VCENTER" />
+    <label x="center" y="130" id="temp" text="@Strings.label_cabin" font="Graphics.FONT_TINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER|Gfx.TEXT_JUSTIFY_VCENTER" />
+    <label x="center" y="160" id="climate" text="@Strings.label_climate" font="Graphics.FONT_TINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER|Gfx.TEXT_JUSTIFY_VCENTER" />
+
+    <!-- button labels -->
+    <label x="center" y="20" font="Graphics.FONT_XTINY" text="@Strings.button_frunk" color="Gfx.COLOR_BLUE" justification="Gfx.TEXT_JUSTIFY_CENTER" />
+    <label x="center" y="210" font="Graphics.FONT_XTINY" text="@Strings.button_door" color="Gfx.COLOR_BLUE" justification="Gfx.TEXT_JUSTIFY_CENTER" />
+    
+    <!-- icons -->
+   	<bitmap id="UpIcon" x="center" y="12" filename="../drawables/up_12.png" dithering="none" />
+   	<bitmap id="DownIcon" x="center" y="228" filename="../drawables/down_12.png" dithering="none" />
+</layout>
