@@ -1,21 +1,15 @@
-# Garmin Connect IQ seed
-This is a seed project for writing [Garmin Connect IQ](http://developer.garmin.com/connect-iq/) applications. Instead of using the Eclipse plugin (which works rather poorly...),
-you can use any text editor of your choice and **compile**, **run** or **package** your project using *make*.
+# Quick Tesla Widget
 
-## Setup
-All you'll need to get started is edit the ```properties.mk``` file. Here's a description of the variables:
+## Note
+This project is a fork of Steven Walter's [Quick Tesla Widget](https://github.com/srwalter/garmin-tesla) (https://github.com/srwalter/garmin-tesla).
 
-- **DEVICE** - device type you want to use for simulation (e.g. fenix3, vivoactive, epix...)
-- **SDK_HOME** - home folder of your SDK (e.g. /Users/me/connectiq-sdk-mac-3.0.4)
-- **PRIVATE_KEY** - path to your generated RSA private key for signing apps (needed since CIQ 1.3) (e.g. /home/.ssh/key/id_rsa_garmin.der)
-- **DEPLOY** - if you want to hot-deploy to your device, that's the mounted path for the APPS folder (e.g. /Volumes/GARMIN/GARMIN/APPS/)
+## Description
+Quickly see and control your Tesla vehicle. Designed to load very fast and work reliably. Features include displaying battery charge (as a number and graphically) and climate control status, as well as controlling climate and remotely operating the door locks and frunk.
+Please send me a message if anything doesn't work correctly, or if you use an unsupported Garmin device. Source code is published on [Github](https://github.com/srwalter/garmin-tesla/).
 
-## Targets
-- **build** - compiles the app
-- **buildall** - compiles the app separately for every device in the SUPPORTED_DEVICES_LIST, packaging appropriate resources. Make sure to have your resource folders named correctly (e.g. /resources-fenix3_hr)
-- **run** - compiles and starts the simulator
-- **deploy** - if your device is connected via USB, compile and deploy the app to the device
-- **package** - create an .iq file for app store submission
+Donations welcome:
+- BTC: 3GqrBxtno67ddEaCVx9V3UkukoUpN9gd4U
+- BCH: qp8ckxjddevyq965u6ewdnx09xavad6umyzkyh0ajn
 
-## How to use?
-To execute the **run** target, run ```make run``` from the home folder of your app
+## Installation
+Install from Garmin [Connect IQ Store](https://apps.garmin.com/): [Quick Tesla Widget](https://apps.garmin.com/en-US/apps/f5f8b74f-f04a-4ad9-9575-231a33640475).
