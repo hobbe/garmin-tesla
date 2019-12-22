@@ -40,6 +40,7 @@
     <string id="label_error_401">Unauthorized</string>
     <string id="label_error_404">Unavailable</string>
     <string id="label_error_408">Request timeout</string>
+    <string id="label_error_500">Server error</string>
     <string id="label_frunk">Frunk</string>
     <string id="label_trunk">Trunk</string>
     <string id="label_getting_vehicles">Getting vehicles...</string>

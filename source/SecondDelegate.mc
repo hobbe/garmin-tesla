@@ -502,6 +502,11 @@ class SecondDelegate extends Ui.BehaviorDelegate {
             }
             return;
         }
+        if (responseCode == 500) {
+            // Server error
+            handler.invoke(Ui.loadResource(Rez.Strings.label_error_500));
+            return;
+        }
         handler.invoke(Ui.loadResource(Rez.Strings.label_error) + responseCode.toString());
     }
 
