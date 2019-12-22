@@ -150,20 +150,23 @@ class SecondView extends Ui.View {
         if (climate != null) {
             var insideTemp = climate.getInsideTemp();
 
-            var imperial = Settings.isImperialUnits();
-            if (imperial) {
-                insideTemp = (insideTemp * 9 / 5) + 32;
-            }
+            if (insideTemp != null) {
+                var imperial = Settings.isImperialUnits();
+                if (imperial) {
+                    insideTemp = (insideTemp * 9 / 5) + 32;
+                }
 
-            var str = Lang.format("$1$$2$$3$", [
-                    Ui.loadResource(Rez.Strings.label_cabin),
-                    insideTemp.format("%1.1f"),
-                    (imperial ? "°F" : "°C")
-                ]);
-            view.setText(str);
-         } else {
-            view.setText(Ui.loadResource(Rez.Strings.label_cabin) + "-");
-         }
+                var str = Lang.format("$1$$2$$3$", [
+                        Ui.loadResource(Rez.Strings.label_cabin),
+                        insideTemp.format("%1.1f"),
+                        (imperial ? "°F" : "°C")
+                    ]);
+                view.setText(str);
+                return;
+            }
+        }
+
+        view.setText(Ui.loadResource(Rez.Strings.label_cabin) + "-");
     }
 
     //! Fill in the climate status field
