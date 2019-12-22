@@ -107,7 +107,7 @@ class SecondDelegate extends Ui.BehaviorDelegate {
     //! Scenario to lock or unlock the doors.
     function toggleDoorLock() {
         var vehicle = _data.getVehicle();
-        if (vehicle != null && !vehicle.get("locked")) {
+        if (vehicle != null && !vehicle.isLocked()) {
             _lock = true;
         } else {
             _unlock = true;
