@@ -36,7 +36,10 @@ class ClimateData {
                 _isOn = climate.get("is_climate_on");
             }
             if (climate.hasKey("inside_temp")) {
-                _insideTemp = climate.get("inside_temp").toNumber();
+                _insideTemp = climate.get("inside_temp");
+                if (_insideTemp instanceof Toybox.Lang.Float) {
+                    _insideTemp = _insideTemp.toFloat();
+                }
             }
         }
     }

@@ -1,3 +1,4 @@
+using Toybox.Lang as Lang;
 using Toybox.WatchUi as Ui;
 
 class SecondView extends Ui.View {
@@ -154,7 +155,12 @@ class SecondView extends Ui.View {
                 insideTemp = (insideTemp * 9 / 5) + 32;
             }
 
-            view.setText(Ui.loadResource(Rez.Strings.label_cabin) + insideTemp.toString() + (imperial ? "°F" : "°C"));
+            var str = Lang.format("$1$$2$$3$", [
+                    Ui.loadResource(Rez.Strings.label_cabin),
+                    insideTemp.format("%1.1f"),
+                    (imperial ? "°F" : "°C")
+                ]);
+            view.setText(str);
          } else {
             view.setText(Ui.loadResource(Rez.Strings.label_cabin) + "-");
          }
