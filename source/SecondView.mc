@@ -31,7 +31,6 @@ class SecondView extends Ui.View {
 
     //! Update the view
     function onUpdate(dc) {
-        var view = null;
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
         dc.clear();
 
@@ -39,34 +38,35 @@ class SecondView extends Ui.View {
             // Informative message
             var center_x = dc.getWidth()/2;
             var center_y = dc.getHeight()/2;
-            dc.setColor(Graphics.COLOR_DK_RED, Graphics.COLOR_BLACK);
             dc.drawText(center_x, center_y, Graphics.FONT_SMALL, _display, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
-
-        } else {
-            // Tesla layout
-
-            var vehicle = _data.getVehicle();
-            if (vehicle != null) {
-                drawVehicleName(vehicle.getName());
-                drawLockedStatus(vehicle.isLocked());
-            }
-
-            var charge = _data.getCharge();
-            drawBatteryLevel(charge);
-
-            var climate = _data.getClimate();
-            drawTemperature(climate);
-            drawClimateStatus(climate);
-
-            // Call the parent onUpdate function to redraw the layout
-            View.onUpdate(dc);
-
-            // Draw additional info on dc
-            drawDefaultGauge(dc);
-            if (charge != null) {
-                drawBatteryLevelGauge(dc, charge);
-            }
+            return;
         }
+
+        // Tesla layout
+        var view = null;
+
+        var vehicle = _data.getVehicle();
+        if (vehicle != null) {
+            drawVehicleName(vehicle.getName());
+            drawLockedStatus(vehicle.isLocked());
+        }
+
+        var charge = _data.getCharge();
+        drawBatteryLevel(charge);
+
+        var climate = _data.getClimate();
+        drawTemperature(climate);
+        drawClimateStatus(climate);
+
+        // Call the parent onUpdate function to redraw the layout
+        View.onUpdate(dc);
+
+        // Draw additional info on dc
+        drawDefaultGauge(dc);
+        if (charge != null) {
+            drawBatteryLevelGauge(dc, charge);
+        }
+
     }
 
     //! Called when this View is removed from the screen. Save the
