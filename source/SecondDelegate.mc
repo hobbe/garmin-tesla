@@ -340,9 +340,6 @@ class SecondDelegate extends Ui.BehaviorDelegate {
             _stateMachine();
         } else {
             _handleErrorResponse("onReceiveVehicles", responseCode, false, _handler);
-            if (responseCode == 408) {
-                _stateMachine();
-            }
         }
     }
 
